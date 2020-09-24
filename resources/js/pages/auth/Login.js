@@ -1,10 +1,28 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useEffect } from 'react'
 
 const Login = () => {
-  return (
-    // <div>
-    //   Login
-    // </div>
+    const token = document.head.querySelector('meta[name="csrf-token"]').content
+    const authConfirm = async (e) => {
+        const res = await axios.get('/auth')
+            .then((res) => {
+            console.log('then', res);
+        }).catch((res) => {
+            console.log('catch', res);
+        })
+        return res
+        // console.log('res',res);
+    }
+
+    useEffect(() => {
+        console.log('useEffect');
+        authConfirm();
+    }, [])
+    const submitLoginForm = (e) => {
+        e.preventDefault()
+        console.log('submit!!!');
+    }
+    return (
     <div>
         <div className="container">
         <div className="row justify-content-center">
@@ -13,13 +31,13 @@ const Login = () => {
                     <div className="card-header">ログイン</div>
 
                     <div className="card-body">
-                        <form method="POST" action="{{ route('login') }}">
-
+                        <form method="POST" action="/login">
+                            <input type="hidden" value={token} name="_token"/>
                             <div className="form-group row">
                                 <label htmlFor="email" className="col-md-4 col-form-label text-md-right">Emil</label>
 
                                 <div className="col-md-6">
-                                    <input id="email" type="email" className="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus />
+                                    <input id="email" type="email" className="form-control" name="email" required />
 
                                         <span className="invalid-feedback" role="alert">
                                             <strong></strong>
@@ -31,7 +49,7 @@ const Login = () => {
                                 <label htmlFor="password" className="col-md-4 col-form-label text-md-right">Password</label>
 
                                 <div className="col-md-6">
-                                    <input id="password" type="password" className="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" />
+                                    <input id="password" type="password" className="form-control" name="password" />
 
                                         <span className="invalid-feedback" role="alert">
                                             <strong></strong>
@@ -53,12 +71,12 @@ const Login = () => {
 
                             <div className="form-group row mb-0">
                                 <div className="col-md-8 offset-md-4">
-                                    <button type="submit" className="btn btn-primary">
-                                      Login
+                                    <button type="submit" className="btn btn-primary" onSubmit={submitLoginForm}>
+                                        Login
                                     </button>
 
                                         <a className="btn btn-link" href="{{ route('password.request') }}">
-                                            Forgot Your Password?'h
+                                            Forgot Your Password?'hpp
                                         </a>
                                 </div>
                             </div>

@@ -17,3 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::post('/login', 'Auth\LoginController@login')->name('login');
+Route::get('/auth', 'SessionController@auth')->name('auth');
+Route::get('/auth2', 'SessionController@auth2')->name('auth');
