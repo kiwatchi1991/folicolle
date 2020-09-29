@@ -14,11 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-Route::post('/login', 'Auth\LoginController@login')->name('login');
-Route::get('/auth', 'SessionController@auth')->name('auth');
+Auth::routes();
+Route::post('/login', 'Auth\Api\LoginController@login')->name('api.login');
 Route::get('/auth2', 'SessionController@auth2')->name('auth');
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('/auth', 'SessionController@auth')->name('auth');
+});

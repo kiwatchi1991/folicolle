@@ -1,26 +1,46 @@
 import axios from 'axios'
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 
-const Login = () => {
-    const token = document.head.querySelector('meta[name="csrf-token"]').content
+
+const Login = (props) => {
+    const [state, setState] = useState(props)
+
+    // const token = document.head.querySelector('meta[name="csrf-token"]').content
     const authConfirm = async (e) => {
-        const res = await axios.get('/auth')
+        const res = await axios.get("/sanctum/csrf-cookie").then(response => {
+            axios.get('/api/auth')
             .then((res) => {
-            console.log('then', res);
-        }).catch((res) => {
-            console.log('catch', res);
+                console.log('then', res);
+            }).catch((res) => {
+                console.log('catch', res);
+            })
+            return res
         })
-        return res
-        // console.log('res',res);
     }
 
     useEffect(() => {
         console.log('useEffect');
         authConfirm();
+        console.log("email",email);
     }, [])
-    const submitLoginForm = (e) => {
-        e.preventDefault()
-        console.log('submit!!!');
+    const login = (e) => {
+        console.log(state.email,state.password);
+        axios.get("/sanctum/csrf-cookie").then(response => {
+            axios
+                .post("/api/login", {
+                    email: state.email,
+                    password: state.password
+                })
+                .then(response => {
+                    const token = response.data.token;
+                    console.log("response", response.data.token);
+                    localStorage.setItem("auth", token);
+                    // window.location.href = "/";
+                })
+                .catch(error => {
+                    console.log("error!");
+                })
+        })
     }
     return (
     <div>
@@ -32,12 +52,11 @@ const Login = () => {
 
                     <div className="card-body">
                         <form method="POST" action="/login">
-                            <input type="hidden" value={token} name="_token"/>
                             <div className="form-group row">
                                 <label htmlFor="email" className="col-md-4 col-form-label text-md-right">Emil</label>
 
                                 <div className="col-md-6">
-                                    <input id="email" type="email" className="form-control" name="email" required />
+                                            <input id="email" type="email" className="form-control" name="email" required value={state.email} onChange={e => setState({...state, email:e.target.value})}/>
 
                                         <span className="invalid-feedback" role="alert">
                                             <strong></strong>
@@ -49,7 +68,7 @@ const Login = () => {
                                 <label htmlFor="password" className="col-md-4 col-form-label text-md-right">Password</label>
 
                                 <div className="col-md-6">
-                                    <input id="password" type="password" className="form-control" name="password" />
+                                            <input id="password" type="password" className="form-control" name="password" value={state.password} onChange={e => setState({...state,password:e.target.value})}/>
 
                                         <span className="invalid-feedback" role="alert">
                                             <strong></strong>
@@ -71,12 +90,12 @@ const Login = () => {
 
                             <div className="form-group row mb-0">
                                 <div className="col-md-8 offset-md-4">
-                                    <button type="submit" className="btn btn-primary" onSubmit={submitLoginForm}>
+                                    <button type="button" className="btn btn-primary" onClick={login}>
                                         Login
                                     </button>
 
                                         <a className="btn btn-link" href="{{ route('password.request') }}">
-                                            Forgot Your Password?'hpp
+                                            Forgot Your Password?'
                                         </a>
                                 </div>
                             </div>
@@ -88,6 +107,10 @@ const Login = () => {
     </div>
   </div>
   )
+}
+Login.defaultProps = {
+    email: "",
+    password: ""
 }
 
 export default Login

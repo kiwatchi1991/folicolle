@@ -1,8 +1,8 @@
-import { LOGIN } from '../actions'
+// import { LOGIN } from '../actions'
 
-const auth = (state = [], action) => {
-    switch (action.type) {
-        case LOGIN:
-
-    }
-}
+// export default (state = {}, action) => {
+//     switch (action.type) {
+//         case LOGIN:
+//         return [...state]
+//     }
+// }
