@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
 import { Link } from 'react-router-dom'
+import Logout from '../../pages/auth/Logout'
 
 const Header = styled.header`
   height: 80px;
@@ -12,6 +13,7 @@ const post = () => {
         <Header className="header">
             <Link to={{ pathname: 'Register' }}>Register</Link>
             <Link to={{ pathname: 'Login' }}>Login</Link>
+            <Logout />
         </Header>
     )
 }

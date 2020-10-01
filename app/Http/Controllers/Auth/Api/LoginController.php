@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
@@ -81,11 +82,17 @@ class LoginController extends Controller
      */
     public function logout(Request $request)
     {
-        $user = $request->user();
-
-        // tokenの削除
+        // ユーザーの取得
+        $user = Auth::user();
         $user->tokens()->delete();
+        return response()->json(['message' => 'Logged out'], 200);
+    }
 
-        return response()->json(['message' => 'logouted']);
+    protected function loggedOut(Request $request)
+    {
+        // セッションを再生成する
+        $request->session()->regenerate();
+
+        return response()->json("ログアウト");
     }
 }

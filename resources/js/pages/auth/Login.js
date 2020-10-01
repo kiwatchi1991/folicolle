@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
-
+import Logout from './Logout'
+import { Link } from 'react-router-dom'
 
 const Login = (props) => {
     const [state, setState] = useState(props)
@@ -10,9 +11,11 @@ const Login = (props) => {
         const res = await axios.get("/sanctum/csrf-cookie").then(response => {
             axios.get('/api/auth')
             .then((res) => {
-                console.log('then', res);
+                // console.log('then', res);
+                // const isAuth = true;
             }).catch((res) => {
-                console.log('catch', res);
+                // console.log('catch', res);
+                // const isAuth = false;
             })
             return res
         })
@@ -21,7 +24,6 @@ const Login = (props) => {
     useEffect(() => {
         console.log('useEffect');
         authConfirm();
-        console.log("email",email);
     }, [])
     const login = (e) => {
         console.log(state.email,state.password);
@@ -104,7 +106,10 @@ const Login = (props) => {
                 </div>
             </div>
         </div>
-    </div>
+        </div>
+            <Logout />
+            <Link to={{ pathname: 'Register' }}>Register</Link>
+            <Link to={{ pathname: 'Login' }}>Login</Link>
   </div>
   )
 }
