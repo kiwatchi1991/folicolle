@@ -7,7 +7,7 @@ import Top from '../pages/Top'
 function App() {
   return (
         <Router>
-            <Switch>
+          <Switch>
                 <Route exact path='/' component={Top} />
                 <Route exact path='/Login' component={Login} />
                 <Route exact path='/Register' component={Register} />

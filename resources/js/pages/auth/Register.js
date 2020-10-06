@@ -5,18 +5,6 @@ import { Link } from 'react-router-dom'
 const Register = (props) => {
     const [state, setState] = useState(props)
 
-    const authConfirm = async (e) => {
-        const res = await axios.get("/sanctum/csrf-cookie").then(response => {
-            axios.get('/api/auth')
-                .then((res) => {
-                    console.log('then', res);
-                }).catch((res) => {
-                    console.log('catch', res);
-                })
-            return res
-        })
-    }
-
     const register = () => {
         console.log(state.name, state.email, state.password, state.password_confirmation);
         axios.get("/sanctum/csrf-cookie").then(response => {

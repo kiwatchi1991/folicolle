@@ -23,16 +23,9 @@ try {
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+axios.defaults.withCredentials = true;
 
 window.axios.interceptors.request.use(config => {
-    // クッキーからトークンを取り出してヘッダーに添付する
-    config.headers['X-XSRF-TOKEN'] = getCookieValue('XSRF-TOKEN')
-    const token = localStorage.getItem("auth")
-    if (token) {
-        console.log("tokenあり！");
-        config.headers['Authorization'] = `Bearer ${token}`
-    }
-
   return config
 })
 /**

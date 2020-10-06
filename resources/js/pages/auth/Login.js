@@ -9,9 +9,9 @@ const Login = (props) => {
     // const token = document.head.querySelector('meta[name="csrf-token"]').content
     const authConfirm = async (e) => {
         const res = await axios.get("/sanctum/csrf-cookie").then(response => {
-            axios.get('/api/auth')
+            axios.get('/api/user')
             .then((res) => {
-                // console.log('then', res);
+                console.log('then', res);
                 // const isAuth = true;
             }).catch((res) => {
                 // console.log('catch', res);
@@ -27,17 +27,16 @@ const Login = (props) => {
     }, [])
     const login = (e) => {
         console.log(state.email,state.password);
-        axios.get("/sanctum/csrf-cookie").then(response => {
+            axios.get("/sanctum/csrf-cookie").then(response => {
             axios
                 .post("/api/login", {
                     email: state.email,
                     password: state.password
                 })
                 .then(response => {
-                    const token = response.data.token;
-                    console.log("response", response.data.token);
-                    localStorage.setItem("auth", token);
-                    // window.location.href = "/";
+                props.history.push("/");
+                   console.log("response");
+                   console.log(response);
                 })
                 .catch(error => {
                     console.log("error!");
@@ -118,4 +117,4 @@ Login.defaultProps = {
     password: ""
 }
 
-export default Login
+export default　Login
