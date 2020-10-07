@@ -30,7 +30,7 @@
         "sass-loader": "^8.0.0"
     },
     "dependencies": {
-        "react-router-dom": "^5.2.0",
-        "styled-components": "^5.2.0"
+        "@emotion/core": "^10.0.35",
+        "react-router-dom": "^5.2.0"
     }
 }
