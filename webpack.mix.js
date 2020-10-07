@@ -1,14 +1,26 @@
-const mix = require('laravel-mix');
+const mix = require("laravel-mix");
 
 mix.webpackConfig({
     module: {
-        rules: [{
-            test: /\.scss/,
-            enforce: 'pre',
-            loader: 'import-glob-loader'
-        }]
-    }
-})
+        rules: [
+            {
+                test: /\.scss/,
+                enforce: "pre",
+                loader: "import-glob-loader",
+            },
+            {
+                enforce: "pre",
+                exclude: /node_modules/,
+                loader: "eslint-loader",
+                test: /\.(js|jsx)?$/,
+                options: {
+                    fix: true,
+                    cache: false,
+                },
+            },
+        ],
+    },
+});
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -20,21 +32,23 @@ mix.webpackConfig({
  |
  */
 
-mix.react('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css')
+mix.react("resources/js/app.js", "public/js")
+    .sass("resources/sass/app.scss", "public/css")
     .sourceMaps()
-    .browserSync({ // ここから
+    .browserSync({
+        // ここから
         https: false, // httpsのサイトをproxyするならtrueをセット
-        files: [ // チェックするファイルは下記で十分ではないかな。
-            './resources/**/*',
-            './app/**/*',
-            './config/**/*',
-            './routes/**/*',
-            './public/**/*'
+        files: [
+            // チェックするファイルは下記で十分ではないかな。
+            "./resources/**/*",
+            "./app/**/*",
+            "./config/**/*",
+            "./routes/**/*",
+            "./public/**/*",
         ],
         proxy: {
-            target: 'http://127.0.0.1:8000' // 最後に/は不要
+            target: "http://127.0.0.1:8000", // 最後に/は不要
         },
         open: true, //BrowserSync起動時にブラウザを開かない
-        reloadOnRestart: true //BrowserSync起動時にブラウザにリロード命令おくる
+        reloadOnRestart: true, //BrowserSync起動時にブラウザにリロード命令おくる
     });
