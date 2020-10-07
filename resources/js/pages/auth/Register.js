@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import Layout from '../../components/Layout/Layout'
 
 const Register = (props) => {
     const [state, setState] = useState(props)
@@ -25,7 +26,8 @@ const Register = (props) => {
                 })
         })
     }
-  return (
+    return (
+      <Layout>
           <div className="container">
               <div className="row justify-content-center">
                   <div className="col-md-8">
@@ -89,7 +91,8 @@ const Register = (props) => {
           </div>
           <Link to={{ pathname: 'Register' }}>Register</Link>
           <Link to={{ pathname: 'Login' }}>Login</Link>
-                        </div>
+            </div>
+            </Layout>
   )
 }
 Register.defaultProps = {

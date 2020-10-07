@@ -6,7 +6,6 @@ const Top = () => {
         <Layout>
             TOP
         </Layout>
-      //  <div>TOP</div>
     )
 }
 

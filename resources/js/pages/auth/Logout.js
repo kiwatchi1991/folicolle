@@ -1,21 +1,21 @@
 import axios from 'axios'
 import React,{useEffect} from 'react'
 
-const Logout = () => {
-    const logout = async () => {
-        const res = await axios.get("/sanctum/csrf-cookie").then(response => {
-            axios.get("/sanctum/csrf-cookie").then(response => {
+const Logout = (props) => {
+    const logout = () => {
+        axios.get("/sanctum/csrf-cookie").then(response => {
                 axios
                     .post("/api/logout")
                     .then(response => {
                         console.log("response", response);
-                        localStorage.removeItem("auth");
+                        console.log("props", props);
+
+                    props.history.push("/");
                     })
                     .catch(error => {
                         console.log("error!");
+                        console.log(error);
                     })
-            })
-            return res
         })
     }
     return (

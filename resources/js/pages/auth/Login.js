@@ -2,29 +2,11 @@ import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import Logout from './Logout'
 import { Link } from 'react-router-dom'
+import Layout from '../../components/Layout/Layout'
 
 const Login = (props) => {
     const [state, setState] = useState(props)
 
-    // const token = document.head.querySelector('meta[name="csrf-token"]').content
-    const authConfirm = async (e) => {
-        const res = await axios.get("/sanctum/csrf-cookie").then(response => {
-            axios.get('/api/user')
-            .then((res) => {
-                console.log('then', res);
-                // const isAuth = true;
-            }).catch((res) => {
-                // console.log('catch', res);
-                // const isAuth = false;
-            })
-            return res
-        })
-    }
-
-    useEffect(() => {
-        console.log('useEffect');
-        authConfirm();
-    }, [])
     const login = (e) => {
         console.log(state.email,state.password);
             axios.get("/sanctum/csrf-cookie").then(response => {
@@ -34,6 +16,7 @@ const Login = (props) => {
                     password: state.password
                 })
                 .then(response => {
+                    console.log("props", props);
                 props.history.push("/");
                    console.log("response");
                    console.log(response);
@@ -44,7 +27,7 @@ const Login = (props) => {
         })
     }
     return (
-    <div>
+    <Layout>
         <div className="container">
         <div className="row justify-content-center">
             <div className="col-md-8">
@@ -106,10 +89,10 @@ const Login = (props) => {
             </div>
         </div>
         </div>
-            <Logout />
+            <Logout history={props}/>
             <Link to={{ pathname: 'Register' }}>Register</Link>
             <Link to={{ pathname: 'Login' }}>Login</Link>
-  </div>
+  </Layout>
   )
 }
 Login.defaultProps = {
