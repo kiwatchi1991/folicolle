@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Redirect } from "react-router-dom";
 
 const Auth = (props) => {
@@ -13,7 +13,10 @@ const Auth = (props) => {
             return res;
         });
     };
-    return isLoggedIn() ? props.children : <Redirect to={"/login"} />;
+    useEffect(() => {
+        isLoggedIn();
+    }, []);
+    return isLoggedIn() ? props.children : <Redirect to={"/"} />;
 };
 
 export default Auth;

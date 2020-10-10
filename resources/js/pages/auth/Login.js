@@ -1,12 +1,24 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Logout from "./Logout";
 import { Link } from "react-router-dom";
 import Layout from "../../components/Layout/Layout";
+import { Redirect } from "react-router-dom";
 
 const Login = (props) => {
     const [state, setState] = useState(props);
 
+    const isLoggedIn = async () => {
+        const res = await axios.get("/sanctum/csrf-cookie").then((response) => {
+            axios
+                .get("/api/user")
+                .then((res) => {
+                    console.log("then", res);
+                })
+                .catch((res) => {});
+            return res;
+        });
+    };
     const login = () => {
         console.log(state.email, state.password);
         axios.get("/sanctum/csrf-cookie").then(() => {
@@ -26,7 +38,9 @@ const Login = (props) => {
                 });
         });
     };
-    return (
+    return isLoggedIn() ? (
+        <Redirect to={"/"} />
+    ) : (
         <Layout>
             <div className="container">
                 <div className="row justify-content-center">

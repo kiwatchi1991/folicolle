@@ -2,9 +2,22 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Layout from "../../components/Layout/Layout";
+import { Redirect } from "react-router-dom";
 
 const Register = (props) => {
     const [state, setState] = useState(props);
+
+    const isLoggedIn = async () => {
+        const res = await axios.get("/sanctum/csrf-cookie").then((response) => {
+            axios
+                .get("/api/user")
+                .then((res) => {
+                    console.log("then", res);
+                })
+                .catch((res) => {});
+            return res;
+        });
+    };
 
     const register = () => {
         console.log(state.name, state.email, state.password, state.password_confirmation);
@@ -26,7 +39,9 @@ const Register = (props) => {
                 });
         });
     };
-    return (
+    return isLoggedIn() ? (
+        <Redirect to={"/"} />
+    ) : (
         <Layout>
             <div className="container">
                 <div className="row justify-content-center">
