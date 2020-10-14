@@ -1,12 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Logout from "../../pages/auth/Logout";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
+import Style from "../../Style/index";
 
 const Header = () => {
     const header = css`
-        background-color: #ffc0cb;
         font-size: 20px;
         padding: 15px;
         display: flex;

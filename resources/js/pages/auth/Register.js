@@ -3,20 +3,150 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Layout from "../../components/Layout/Layout";
 import { Redirect } from "react-router-dom";
+/** @jsx jsx */
+import { css, jsx } from "@emotion/core";
+import Style from "../../Style";
 
 const Register = (props) => {
+    //style
+    const body = css`
+        background: ${Style.color.bg};
+        height: 100%;
+        padding-top: 80px;
+    `;
+
+    const wrapper = css`
+        background: #fff;
+        border-radius: 5px;
+        margin-top: 32px;
+        width: 300px;
+        display: flex;
+        margin: 0 auto;
+        padding: 24px;
+        text-align: center;
+    `;
+    const inner = css`
+        width: 100%;
+    `;
+    const title = css`
+        color: ${Style.color.main};
+        font-size: 2rem;
+        margin: 8px 0;
+    `;
+    const formWrap = css`
+        margin-top: 18px;
+    `;
+    const inputWrap = css`
+        margin-top: 12px;
+    `;
+    const input = css`
+        border: 1px solid ${Style.color.main};
+        border-radius: 5px;
+        padding: 16px;
+        width: 100%;
+        height: 100%;
+        display: inline-block;
+        box-sizing: border-box;
+        background: none;
+        &::placeholder {
+            color: ${Style.color.main};
+        }
+    `;
+    const button = css`
+        width: 100%;
+        padding: 16px;
+        background: ${Style.color.main};
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        height: 50px;
+    `;
+    const buttonWrap = css`
+        margin-top: 12px;
+    `;
+    const forget = css`
+        margin-top: 24px;
+        color: ${Style.color.main};
+        font-size: 1.4rem;
+    `;
+    const forgetLink = css`
+        margin-left: 4px;
+        color: ${Style.color.accent};
+        :visited {
+            color: ${Style.color.accent};
+        }
+    `;
+    const or = css`
+        position: relative;
+        font-size: 1.4rem;
+        margin: 24px auto;
+        color: ${Style.color.main};
+        &:before {
+            left: 0;
+        }
+        &:after {
+            right: 0;
+        }
+        &:before,
+        &:after {
+            content: "";
+            display: block;
+            width: 88px;
+            height: 1px;
+            position: absolute;
+            top: 50%;
+            background-color: ${Style.color.main};
+        }
+    `;
+    const sns = css`
+        display: flex;
+        justify-content: space-between;
+    `;
+    const snsBtn = css`
+        background: #333;
+        width: 75px;
+        border-radius: 3px;
+        height: 45px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    `;
+    const github = css`
+        background: #171515;
+    `;
+    const google = css`
+        background: #dd5144;
+    `;
+    const twitter = css`
+        background: #1da1f2;
+    `;
+    const a = css`
+        //
+    `;
+    const toRegister = css`
+        margin-top: 32px;
+        color: ${Style.color.main};
+        font-size: 1.2rem;
+    `;
+    const toRegisterLink = css`
+        margin-left: 4px;
+        color: ${Style.color.accent};
+        &:visited {
+            color: ${Style.color.accent};
+        }
+    `;
     const [state, setState] = useState(props);
 
-    const isLoggedIn = async () => {
-        const res = await axios.get("/sanctum/csrf-cookie").then((response) => {
-            axios
-                .get("/api/user")
-                .then((res) => {
-                    console.log("then", res);
-                })
-                .catch((res) => {});
-            return res;
-        });
+    const isLoggedIn = () => getLocalStorage("isLoggedIn") === "true";
+
+    const setLocalStorage = (key, value) => localStorage.setItem(key, value);
+
+    const getLocalStorage = (key) => {
+        const ret = localStorage.getItem(key);
+        if (ret) {
+            return ret;
+        }
+        return null;
     };
 
     const register = () => {
@@ -32,7 +162,7 @@ const Register = (props) => {
                 .then((response) => {
                     const token = response.data.token;
                     console.log("response", response.data.token);
-                    localStorage.setItem("auth", token);
+                    setLocalStorage("isLoggedIn", true);
                 })
                 .catch((error) => {
                     console.log("error!");
@@ -43,112 +173,91 @@ const Register = (props) => {
         <Redirect to={"/"} />
     ) : (
         <Layout>
-            <div className="container">
-                <div className="row justify-content-center">
-                    <div className="col-md-8">
-                        <div className="card">
-                            <div className="card-header">Register</div>
+            <div css={body}>
+                <div css={wrapper}>
+                    <div css={inner}>
+                        <div css={title}>新規登録</div>
+                        <ul css={formWrap}>
+                            <li css={inputWrap}>
+                                <input
+                                    id="name"
+                                    type="text"
+                                    css={input}
+                                    name="name"
+                                    value={state.name}
+                                    onChange={(e) => setState({ ...state, name: e.target.value })}
+                                    required
+                                    autoComplete="name"
+                                    autoFocus
+                                />
+                            </li>
+                            <li css={inputWrap}>
+                                <input
+                                    id="email"
+                                    type="email"
+                                    css={input}
+                                    name="email"
+                                    value={state.email}
+                                    onChange={(e) => setState({ ...state, email: e.target.value })}
+                                    required
+                                    autoComplete="email"
+                                />
 
-                            <div className="card-body">
-                                <form method="POST" action="">
-                                    <div className="form-group row">
-                                        <label htmlFor="name" className="col-md-4 col-form-label text-md-right">
-                                            Name
-                                        </label>
+                                <span className="invalid-feedback" role="alert"></span>
+                            </li>
 
-                                        <div className="col-md-6">
-                                            <input
-                                                id="name"
-                                                type="text"
-                                                className="form-control"
-                                                name="name"
-                                                value={state.name}
-                                                onChange={(e) => setState({ ...state, name: e.target.value })}
-                                                required
-                                                autoComplete="name"
-                                                autoFocus
-                                            />
+                            <li css={inputWrap}>
+                                <input
+                                    id="password"
+                                    type="password"
+                                    css={input}
+                                    name="password"
+                                    value={state.password}
+                                    onChange={(e) => setState({ ...state, password: e.target.value })}
+                                    required
+                                    autoComplete="new-password"
+                                />
 
-                                            <span className="invalid-feedback" role="alert"></span>
-                                        </div>
-                                    </div>
-
-                                    <div className="form-group row">
-                                        <label htmlFor="email" className="col-md-4 col-form-label text-md-right">
-                                            E-Mail Address
-                                        </label>
-
-                                        <div className="col-md-6">
-                                            <input
-                                                id="email"
-                                                type="email"
-                                                className="form-control"
-                                                name="email"
-                                                value={state.email}
-                                                onChange={(e) => setState({ ...state, email: e.target.value })}
-                                                required
-                                                autoComplete="email"
-                                            />
-
-                                            <span className="invalid-feedback" role="alert"></span>
-                                        </div>
-                                    </div>
-
-                                    <div className="form-group row">
-                                        <label htmlFor="password" className="col-md-4 col-form-label text-md-right">
-                                            Password
-                                        </label>
-
-                                        <div className="col-md-6">
-                                            <input
-                                                id="password"
-                                                type="password"
-                                                className="form-control"
-                                                name="password"
-                                                value={state.password}
-                                                onChange={(e) => setState({ ...state, password: e.target.value })}
-                                                required
-                                                autoComplete="new-password"
-                                            />
-
-                                            <span className="invalid-feedback" role="alert"></span>
-                                        </div>
-                                    </div>
-
-                                    <div className="form-group row">
-                                        <label
-                                            htmlFor="password-confirm"
-                                            className="col-md-4 col-form-label text-md-right"
-                                        >
-                                            Confirm Password
-                                        </label>
-
-                                        <div className="col-md-6">
-                                            <input
-                                                id="password-confirm"
-                                                type="password"
-                                                className="form-control"
-                                                name="password_confirmation"
-                                                value={state.password_confirmation}
-                                                onChange={(e) =>
-                                                    setState({ ...state, password_confirmation: e.target.value })
-                                                }
-                                                required
-                                                autoComplete="new-password"
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="form-group row mb-0">
-                                        <div className="col-md-6 offset-md-4">
-                                            <button type="button" className="btn btn-primary" onClick={register}>
-                                                "Register"
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+                                <span className="invalid-feedback" role="alert"></span>
+                            </li>
+                            <li css={inputWrap}>
+                                <input
+                                    id="password-confirm"
+                                    type="password"
+                                    css={input}
+                                    name="password_confirmation"
+                                    value={state.password_confirmation}
+                                    onChange={(e) => setState({ ...state, password_confirmation: e.target.value })}
+                                    required
+                                    autoComplete="new-password"
+                                />
+                            </li>
+                            <li css={buttonWrap}>
+                                <button type="button" css={button} onClick={register}>
+                                    新規登録
+                                </button>
+                            </li>
+                            <li css={or}>または</li>
+                            <li>
+                                <ul css={sns}>
+                                    <li>
+                                        <button css={[snsBtn, github]}>
+                                            <img src="/images/github.svg" alt="githubのアイコン" />
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button css={[snsBtn, google]}>
+                                            <img src="/images/google.svg" alt="googleのアイコン" />
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button css={[snsBtn, twitter]}>
+                                            <img src="/images/twitter.svg" alt="twitterのアイコン" />
+                                        </button>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 <Link to={{ pathname: "Register" }}>Register</Link>

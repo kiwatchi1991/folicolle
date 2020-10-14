@@ -32,6 +32,7 @@
     "react/jsx-fragments": ["off", "element"],
     "react/react-in-jsx-scope": "off",
     "no-unused-vars": "off",
+    "no-undef": "warn",
     "react/no-unescaped-entities": ["error", {"forbid": []}],
     "react/prop-types": ["off",{}],
     "react/jsx-filename-extension": [

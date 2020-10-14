@@ -1,135 +1,266 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
-import Logout from "./Logout";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import Layout from "../../components/Layout/Layout";
+/** @jsx jsx */
+import { css, jsx } from "@emotion/core";
+import Style from "../../Style";
 import { Redirect } from "react-router-dom";
+import { LOGIN } from "../../actions";
+import AppContext from "../../contexts/AppContexts";
 
 const Login = (props) => {
-    const [state, setState] = useState(props);
+    //style
+    const body = css`
+        background: ${Style.color.bg};
+        height: 100%;
+        padding-top: 80px;
+    `;
 
-    const isLoggedIn = async () => {
-        const res = await axios.get("/sanctum/csrf-cookie").then((response) => {
-            axios
-                .get("/api/user")
-                .then((res) => {
-                    console.log("then", res);
-                })
-                .catch((res) => {});
-            return res;
-        });
+    const wrapper = css`
+        background: #fff;
+        border-radius: 5px;
+        margin-top: 32px;
+        width: 300px;
+        display: flex;
+        margin: 0 auto;
+        padding: 24px;
+        text-align: center;
+    `;
+    const inner = css`
+        width: 100%;
+    `;
+    const title = css`
+        color: ${Style.color.main};
+        font-size: 2rem;
+        margin: 8px 0;
+    `;
+    const formWrap = css`
+        margin-top: 18px;
+    `;
+    const inputrap = css`
+        margin-top: 12px;
+    `;
+    const input = css`
+        border: 1px solid ${Style.color.main};
+        border-radius: 5px;
+        padding: 16px;
+        width: 100%;
+        height: 100%;
+        display: inline-block;
+        box-sizing: border-box;
+        background: none;
+        &::placeholder {
+            color: ${Style.color.main};
+        }
+    `;
+    const button = css`
+        width: 100%;
+        padding: 16px;
+        background: ${Style.color.main};
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        height: 50px;
+    `;
+    const buttonWrap = css`
+        margin-top: 12px;
+    `;
+    const forget = css`
+        margin-top: 24px;
+        color: ${Style.color.main};
+        font-size: 1.4rem;
+    `;
+    const forgetLink = css`
+        margin-left: 4px;
+        color: ${Style.color.accent};
+        :visited {
+            color: ${Style.color.accent};
+        }
+    `;
+    const or = css`
+        position: relative;
+        font-size: 1.4rem;
+        margin: 24px auto;
+        color: ${Style.color.main};
+        &:before {
+            left: 0;
+        }
+        &:after {
+            right: 0;
+        }
+        &:before,
+        &:after {
+            content: "";
+            display: block;
+            width: 88px;
+            height: 1px;
+            position: absolute;
+            top: 50%;
+            background-color: ${Style.color.main};
+        }
+    `;
+    const sns = css`
+        display: flex;
+        justify-content: space-between;
+    `;
+    const snsBtn = css`
+        background: #333;
+        width: 75px;
+        border-radius: 3px;
+        height: 45px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    `;
+    const github = css`
+        background: #171515;
+    `;
+    const google = css`
+        background: #dd5144;
+    `;
+    const twitter = css`
+        background: #1da1f2;
+    `;
+    const a = css`
+        //
+    `;
+    const toRegister = css`
+        margin-top: 32px;
+        color: ${Style.color.main};
+        font-size: 1.2rem;
+    `;
+    const toRegisterLink = css`
+        margin-left: 4px;
+        color: ${Style.color.accent};
+        &:visited {
+            color: ${Style.color.accent};
+        }
+    `;
+    const { state, dispatch } = useContext(AppContext);
+    console.log("dLOGIn画面読み込み時のstate", state);
+
+    const [localState, setState] = useState(props);
+
+    const isLoggedIn = () => getLocalStorage("isLoggedIn") === "true";
+
+    const setLocalStorage = (key, value) => localStorage.setItem(key, value);
+
+    const getLocalStorage = (key) => {
+        const ret = localStorage.getItem(key);
+        if (ret) {
+            return ret;
+        }
+        return null;
     };
     const login = () => {
-        console.log(state.email, state.password);
         axios.get("/sanctum/csrf-cookie").then(() => {
             axios
                 .post("/api/login", {
-                    email: state.email,
-                    password: state.password,
+                    email: localState.email,
+                    password: localState.password,
                 })
                 .then((response) => {
-                    console.log("props", props);
+                    console.log("response", response);
+                    setLocalStorage("isLoggedIn", true);
+                    dispatch({ type: LOGIN });
+                    console.log("dispatchあとのstate", state);
                     props.history.push("/");
-                    console.log("response");
-                    console.log(response);
                 })
                 .catch(() => {
                     console.log("error!");
                 });
         });
     };
-    return isLoggedIn() ? (
+    return state.auth.isLoggedIn ? (
         <Redirect to={"/"} />
     ) : (
         <Layout>
-            <div className="container">
-                <div className="row justify-content-center">
-                    <div className="col-md-8">
-                        <div className="card">
-                            <div className="card-header">ログイン</div>
+            <div css={body}>
+                <div css={wrapper}>
+                    <div css={inner}>
+                        <div css={title}>ログイン</div>
+                        <ul css={formWrap}>
+                            <li css={inputrap}>
+                                <input
+                                    id="email"
+                                    type="email"
+                                    css={input}
+                                    name="email"
+                                    value={localState.email}
+                                    placeholder="メールアドレス"
+                                    onChange={(e) => setState({ ...localState, email: e.target.value })}
+                                />
+                                <span css={a} role="alert">
+                                    <strong></strong>
+                                </span>
+                            </li>
+                            <li css={inputrap}>
+                                <input
+                                    id="password"
+                                    type="password"
+                                    name="password"
+                                    css={input}
+                                    value={localState.password}
+                                    placeholder="パスワード"
+                                    onChange={(e) => setState({ ...localState, password: e.target.value })}
+                                />
 
-                            <div className="card-body">
-                                <form method="POST" action="/login">
-                                    <div className="form-group row">
-                                        <label htmlFor="email" className="col-md-4 col-form-label text-md-right">
-                                            Emil
-                                        </label>
+                                <span css={a} role="alert">
+                                    <strong></strong>
+                                </span>
+                            </li>
+                            {/* <li css={a}>
+                                    <input css={a} type="checkbox" name="remember" id="remember" />
 
-                                        <div className="col-md-6">
-                                            <input
-                                                id="email"
-                                                type="email"
-                                                className="form-control"
-                                                name="email"
-                                                required
-                                                value={state.email}
-                                                onChange={(e) => setState({ ...state, email: e.target.value })}
-                                            />
-
-                                            <span className="invalid-feedback" role="alert">
-                                                <strong></strong>
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <div className="form-group row">
-                                        <label htmlFor="password" className="col-md-4 col-form-label text-md-right">
-                                            Password
-                                        </label>
-
-                                        <div className="col-md-6">
-                                            <input
-                                                id="password"
-                                                type="password"
-                                                className="form-control"
-                                                name="password"
-                                                value={state.password}
-                                                onChange={(e) => setState({ ...state, password: e.target.value })}
-                                            />
-
-                                            <span className="invalid-feedback" role="alert">
-                                                <strong></strong>
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <div className="form-group row">
-                                        <div className="col-md-6 offset-md-4">
-                                            <div className="form-check">
-                                                <input
-                                                    className="form-check-input"
-                                                    type="checkbox"
-                                                    name="remember"
-                                                    id="remember"
-                                                />
-
-                                                <label className="form-check-label" htmlFor="remember">
-                                                    Remember me
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="form-group row mb-0">
-                                        <div className="col-md-8 offset-md-4">
-                                            <button type="button" className="btn btn-primary" onClick={login}>
-                                                Login
-                                            </button>
-
-                                            <a className="btn btn-link" href="{{ route('password.request') }}">
-                                                Forgot Your Password?'
-                                            </a>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+                                    <label css={a} htmlFor="remember">
+                                        Remember me
+                                    </label>
+                                </li> */}
+                            <li css={buttonWrap}>
+                                <button type="button" css={button} onClick={login}>
+                                    ログイン
+                                </button>
+                            </li>
+                            <li css={forget}>
+                                パスワードを忘れた方は
+                                {/* <Link css={forgetLink} href="/password/request">
+                                    こちら
+                                </Link> */}
+                            </li>
+                            <li css={or}>または</li>
+                            <li>
+                                <ul css={sns}>
+                                    <li>
+                                        <button css={[snsBtn, github]}>
+                                            <img src="/images/github.svg" alt="githubのアイコン" />
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button css={[snsBtn, google]}>
+                                            <img src="/images/google.svg" alt="googleのアイコン" />
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button css={[snsBtn, twitter]}>
+                                            <img src="/images/twitter.svg" alt="twitterのアイコン" />
+                                        </button>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li css={toRegister}>
+                                アカウントをお持ちでないですか？
+                                <Link to={{ pathname: "Register" }} css={toRegisterLink}>
+                                    新規登録
+                                </Link>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
-            <Logout history={props} />
+            {/* <Logout history={props} />
             <Link to={{ pathname: "Register" }}>Register</Link>
-            <Link to={{ pathname: "Login" }}>Login</Link>
+            <Link to={{ pathname: "Login" }}>Login</Link> */}
         </Layout>
     );
 };

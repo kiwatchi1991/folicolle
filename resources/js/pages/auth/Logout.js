@@ -10,8 +10,7 @@ const Logout = (props) => {
                     console.log("response", response);
                     console.log("props", props);
 
-                    // eslint-disable-next-line react/prop-types
-                    props.history.push("/");
+                    // props.history.push("/");
                 })
                 .catch((error) => {
                     console.log("error!");
