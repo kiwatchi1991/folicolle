@@ -14,6 +14,9 @@ jobs:
       - name: FTP-Deploy-Action
         uses: SamKirkland/FTP-Deploy-Action@3.0.0
         with:
-          ftp-server: ${{ secrets.FTP_HOST }}
+          # ftp-server: ${{ secrets.FTP_HOST }}
+          ftp-server: sftp://kiwatchi@kiwatchi.sakura.ne.jp
           ftp-username: ${{ secrets.FTP_USERNAME }}
           ftp-password: ${{ secrets.FTP_PASSWORD }}
+          LOCAL_DIR: ./
+          REMOTE_DIR: home/kiwatchi/folicolle
