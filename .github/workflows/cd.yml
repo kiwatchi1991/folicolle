@@ -13,7 +13,7 @@ jobs:
     steps:
       # - uses: actions/checkout@v1
       - name: ssh
-        run: |
+        run: | #
         ssh kiwatchi@kiwatchi.sakura.ne.jp
         t53vpnfvte
         cd folicolle
