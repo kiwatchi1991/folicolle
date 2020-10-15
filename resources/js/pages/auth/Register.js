@@ -186,9 +186,9 @@ const Register = (props) => {
                                     name="name"
                                     value={state.name}
                                     onChange={(e) => setState({ ...state, name: e.target.value })}
+                                    placeholder="ユーザー名"
                                     required
                                     autoComplete="name"
-                                    autoFocus
                                 />
                             </li>
                             <li css={inputWrap}>
@@ -199,6 +199,7 @@ const Register = (props) => {
                                     name="email"
                                     value={state.email}
                                     onChange={(e) => setState({ ...state, email: e.target.value })}
+                                    placeholder="メールアドレス"
                                     required
                                     autoComplete="email"
                                 />
@@ -214,6 +215,7 @@ const Register = (props) => {
                                     name="password"
                                     value={state.password}
                                     onChange={(e) => setState({ ...state, password: e.target.value })}
+                                    placeholder="パスワード"
                                     required
                                     autoComplete="new-password"
                                 />
@@ -228,6 +230,7 @@ const Register = (props) => {
                                     name="password_confirmation"
                                     value={state.password_confirmation}
                                     onChange={(e) => setState({ ...state, password_confirmation: e.target.value })}
+                                    placeholder="パスワード確認"
                                     required
                                     autoComplete="new-password"
                                 />
@@ -260,8 +263,6 @@ const Register = (props) => {
                         </ul>
                     </div>
                 </div>
-                <Link to={{ pathname: "Register" }}>Register</Link>
-                <Link to={{ pathname: "Login" }}>Login</Link>
             </div>
         </Layout>
     );
