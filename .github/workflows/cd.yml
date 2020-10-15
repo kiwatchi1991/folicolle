@@ -15,5 +15,6 @@ jobs:
       - name: ssh
         run: |
         ssh kiwatchi@kiwatchi.sakura.ne.jp
+        t53vpnfvte
         cd folicolle
         git pull origin master
