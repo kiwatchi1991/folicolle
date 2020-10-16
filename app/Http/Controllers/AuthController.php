@@ -12,8 +12,10 @@ class AuthController extends Controller
     {
         Log::debug('authConfirm');
         if (Auth::check()) {
+            Log::debug('Auth::check()');
             $response = Auth::user();
         } else {
+            Log::debug('null');
             $response = null;
         }
         return response()->json(["user" => $response]);

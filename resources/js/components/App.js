@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
@@ -9,11 +9,34 @@ import AppContext from "../contexts/AppContexts";
 import reducer from "../reducers";
 
 function App() {
-    const initialState = {
-        auth: [],
+    // const getLoggedInUser = () => {
+
+    const res = async () => {
+        await axios.get("/sanctum/csrf-cookie").then(() => {
+            axios.get("/api/auth").then((response) => {
+                console.log("then", response.data.user);
+                const auth = response.data.user;
+                return auth;
+            });
+            // .catch((response) => {});
+            // console.log("getLoggedInUser内のisLogin ".isLoggedIn);
+        });
+        // return res;
     };
+    useEffect(() => {
+        res();
+        console.log(res());
+    }, []);
+    const initialState = res()
+        ? {
+              auth: { isLoggedIn: true },
+          }
+        : {
+              auth: { isLoggedIn: false },
+          };
+
     const [state, dispatch] = useReducer(reducer, initialState);
-    console.log("AppComponentでのreducer", reducer);
+    console.log(initialState);
     return (
         <AppContext.Provider value={{ state, dispatch }}>
             <Router>

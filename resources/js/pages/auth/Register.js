@@ -1,11 +1,14 @@
 import axios from "axios";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
 import Layout from "../../components/Layout/Layout";
 import { Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { REGISTER } from "../../actions";
+
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 import Style from "../../Style";
+import AppContext from "../../contexts/AppContexts";
 
 const Register = (props) => {
     //style
@@ -123,53 +126,39 @@ const Register = (props) => {
     const a = css`
         //
     `;
-    const toRegister = css`
+    const toLogin = css`
         margin-top: 32px;
         color: ${Style.color.main};
         font-size: 1.2rem;
     `;
-    const toRegisterLink = css`
+    const toLoginLink = css`
         margin-left: 4px;
         color: ${Style.color.accent};
         &:visited {
             color: ${Style.color.accent};
         }
     `;
-    const [state, setState] = useState(props);
-
-    const isLoggedIn = () => getLocalStorage("isLoggedIn") === "true";
-
-    const setLocalStorage = (key, value) => localStorage.setItem(key, value);
-
-    const getLocalStorage = (key) => {
-        const ret = localStorage.getItem(key);
-        if (ret) {
-            return ret;
-        }
-        return null;
-    };
+    const { state, dispatch } = useContext(AppContext);
+    const [localState, setState] = useState(props);
 
     const register = () => {
-        console.log(state.name, state.email, state.password, state.password_confirmation);
         axios.get("/sanctum/csrf-cookie").then((response) => {
             axios
                 .post("/api/register", {
-                    name: state.name,
-                    email: state.email,
-                    password: state.password,
-                    password_confirmation: state.password_confirmation,
+                    name: localState.name,
+                    email: localState.email,
+                    password: localState.password,
+                    password_confirmation: localState.password_confirmation,
                 })
                 .then((response) => {
-                    const token = response.data.token;
-                    console.log("response", response.data.token);
-                    setLocalStorage("isLoggedIn", true);
+                    dispatch({ type: REGISTER });
                 })
                 .catch((error) => {
                     console.log("error!");
                 });
         });
     };
-    return isLoggedIn() ? (
+    return state.auth.isLoggedIn ? (
         <Redirect to={"/"} />
     ) : (
         <Layout>
@@ -184,8 +173,8 @@ const Register = (props) => {
                                     type="text"
                                     css={input}
                                     name="name"
-                                    value={state.name}
-                                    onChange={(e) => setState({ ...state, name: e.target.value })}
+                                    value={localState.name}
+                                    onChange={(e) => setState({ ...localState, name: e.target.value })}
                                     placeholder="ユーザー名"
                                     required
                                     autoComplete="name"
@@ -197,8 +186,8 @@ const Register = (props) => {
                                     type="email"
                                     css={input}
                                     name="email"
-                                    value={state.email}
-                                    onChange={(e) => setState({ ...state, email: e.target.value })}
+                                    value={localState.email}
+                                    onChange={(e) => setState({ ...localState, email: e.target.value })}
                                     placeholder="メールアドレス"
                                     required
                                     autoComplete="email"
@@ -213,8 +202,8 @@ const Register = (props) => {
                                     type="password"
                                     css={input}
                                     name="password"
-                                    value={state.password}
-                                    onChange={(e) => setState({ ...state, password: e.target.value })}
+                                    value={localState.password}
+                                    onChange={(e) => setState({ ...localState, password: e.target.value })}
                                     placeholder="パスワード"
                                     required
                                     autoComplete="new-password"
@@ -228,8 +217,8 @@ const Register = (props) => {
                                     type="password"
                                     css={input}
                                     name="password_confirmation"
-                                    value={state.password_confirmation}
-                                    onChange={(e) => setState({ ...state, password_confirmation: e.target.value })}
+                                    value={localState.password_confirmation}
+                                    onChange={(e) => setState({ ...localState, password_confirmation: e.target.value })}
                                     placeholder="パスワード確認"
                                     required
                                     autoComplete="new-password"
@@ -259,6 +248,12 @@ const Register = (props) => {
                                         </button>
                                     </li>
                                 </ul>
+                            </li>
+                            <li css={toLogin}>
+                                アカウントをお持ちでないですか？
+                                <Link to={{ pathname: "Login" }} css={toLoginLink}>
+                                    新規登録
+                                </Link>
                             </li>
                         </ul>
                     </div>

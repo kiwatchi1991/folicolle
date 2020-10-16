@@ -142,17 +142,6 @@ const Login = (props) => {
 
     const [localState, setState] = useState(props);
 
-    const isLoggedIn = () => getLocalStorage("isLoggedIn") === "true";
-
-    const setLocalStorage = (key, value) => localStorage.setItem(key, value);
-
-    const getLocalStorage = (key) => {
-        const ret = localStorage.getItem(key);
-        if (ret) {
-            return ret;
-        }
-        return null;
-    };
     const login = () => {
         axios.get("/sanctum/csrf-cookie").then(() => {
             axios
@@ -162,7 +151,6 @@ const Login = (props) => {
                 })
                 .then((response) => {
                     console.log("response", response);
-                    setLocalStorage("isLoggedIn", true);
                     dispatch({ type: LOGIN });
                     console.log("dispatchあとのstate", state);
                     props.history.push("/");
