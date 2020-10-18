@@ -1,21 +1,23 @@
-name: only master branch
-
+name: Deploy to EC2
+# masterにpushされた時にjobを実行する
 on:
   push:
-    branches:
-      - master
+    branches: [ master ]
 
 jobs:
-  deploy:
-
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: FTP-Deploy-Action
-        uses: SamKirkland/FTP-Deploy-Action@3.0.0
-        with:
-          # ftp-server: ${{ secrets.FTP_HOST }}
-          ftp-server: sftp://kiwatchi@kiwatchi.sakura.ne.jp/folicolle
-          ftp-username: ${{ secrets.FTP_USERNAME }}
-          ftp-password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./
+    - name: test
+    # 保存したシークレットたちを環境変数に設定
+    env:
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      SAKURA_USER: ${{ secrets.SAKURA_USER }}
+      SAKURA_HOST: ${{ secrets.SAKURA_HOST }}
+      run:
+        # 秘密鍵にファイル名secret_keyをつける
+        echo "$SECRET_KEY" > secret_key
+        # パーミッションの変更
+        chmod 600 secret_key
+        # ssh接続　＞　デプロイするディレクトリに行く　＞　デプロイ
+        ssh -oStrictHostKeyChecking=no ${SAKURA_USER}@${SAKURA_HOST} -i secret_key "cd ~/folicolle && git pull origin master"
