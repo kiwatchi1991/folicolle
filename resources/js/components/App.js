@@ -5,27 +5,18 @@ import Register from "../pages/auth/Register";
 import Top from "../pages/Top";
 import Sample from "../pages/Sample";
 import Auth from "./Auth";
+import Guest from "./Guest";
 import AppContext from "../contexts/AppContexts";
 import reducer from "../reducers";
 
 function App() {
-    const res = () => {
-        return axios
-            .get("/sanctum/csrf-cookie")
-            .then(() => axios.get("/api/auth"))
-            .then((response) => response.data.user);
-    };
-
     let initialState = {
+        firstLoad: true,
         auth: { isLoggedIn: false },
     };
-
-    res().then((data) => {
-        if (data) {
-            initialState.auth.isLoggedIn = true;
-        }
-        setState(true);
-    });
+    useEffect(() => {
+        console.log("state", state);
+    }, [state]);
     const [localState, setState] = useState(false);
 
     const [state, dispatch] = useReducer(reducer, initialState);
@@ -34,8 +25,10 @@ function App() {
             <Router>
                 <Switch>
                     <Route exact path="/" component={Top} />
-                    <Route exact path="/Login" component={Login} />
-                    <Route exact path="/Register" component={Register} />
+                    <Guest>
+                        <Route exact path="/Login" component={Login} />
+                        <Route exact path="/Register" component={Register} />
+                    </Guest>
                     <Auth>
                         <Route exact path="/Sample" component={Sample} />
                     </Auth>
