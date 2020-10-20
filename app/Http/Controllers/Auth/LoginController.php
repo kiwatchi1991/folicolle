@@ -88,6 +88,7 @@ class LoginController extends Controller
      */
     public function handleProviderCallback($provider)
     {
+        Log::debug('handleProviderCallback');
         try {
             Log::debug('try');
             $providerUser = \Socialite::with($provider)->user();
