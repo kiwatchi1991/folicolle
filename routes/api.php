@@ -17,12 +17,17 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
+//SNSログイン
+Route::get('/login/{provider}', 'Auth\LoginController@redirectToProvider');
+Route::get('/login/{provider}/callback', 'Auth\LoginController@handleProviderCallback');
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::post('/register', 'Auth\RegisterController@register')->name('register');
 Route::post('/login', 'Auth\LoginController@login')->name('login');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
+
 
 Route::get('/auth', 'AuthController@authConfirm')->name('auth');
 
