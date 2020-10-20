@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
-use Laravel\Socialite\Facades\Socialite;
+use Socialite;
 
 class LoginController extends Controller
 {
@@ -90,7 +90,7 @@ class LoginController extends Controller
     {
         try {
             Log::debug('try');
-            $providerUser = Socialite::with($provider)->user();
+            $providerUser = \Socialite::with($provider)->user();
         } catch (\Exception $e) {
             Log::debug('catch');
             return redirect('/login')->with('oauth_error', '予期せぬエラーが発生しました');
