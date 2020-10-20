@@ -77,7 +77,8 @@ class LoginController extends Controller
         Log::debug('redirectToProvider');
         Log::debug('provider');
         Log::debug($provider);
-        return Socialite::driver($provider)->redirect();
+        Log::debug(Socialite::driver($provider)->redirect());
+        return Socialite::driver($provider)->redirect()->getTargetUrl();
     }
     
     /**
