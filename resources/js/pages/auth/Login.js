@@ -160,6 +160,21 @@ const Login = (props) => {
                 });
         });
     };
+    const oAuthLogin = (prop) => {
+        axios.get("/sanctum/csrf-cookie").then(() => {
+            axios
+                .get(`/api/login/${prop}/`)
+                .then((response) => {
+                    console.log("response", response);
+                    dispatch({ type: LOGIN });
+                    console.log("dispatchあとのstate", state);
+                    props.history.push("/");
+                })
+                .catch(() => {
+                    console.log("error!");
+                });
+        });
+    };
     return state.auth.isLoggedIn ? (
         <Redirect to={"/"} />
     ) : (
@@ -230,7 +245,7 @@ const Login = (props) => {
                                         </button>
                                     </li>
                                     <li>
-                                        <button css={[snsBtn, twitter]}>
+                                        <button css={[snsBtn, twitter]} onClick={oAuthLogin("twitter")}>
                                             <img src="/images/twitter.svg" alt="twitterのアイコン" />
                                         </button>
                                     </li>
