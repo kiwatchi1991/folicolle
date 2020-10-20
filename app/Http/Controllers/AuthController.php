@@ -18,6 +18,6 @@ class AuthController extends Controller
             Log::debug('null');
             $response = null;
         }
-        return response()->json(["user" => $response]);
+        return response()->json($response);
     }
 }
