@@ -13,5 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//SNSログイン
+Route::get('/login/{provider}', 'Auth\LoginController@redirectToProvider');
+Route::get('/login/{provider}/callback', 'Auth\LoginController@handleProviderCallback');
 
 Route::get('/{any?}', 'HomeController@index')->name('home');

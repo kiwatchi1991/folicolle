@@ -163,7 +163,7 @@ const Login = (props) => {
     const oAuthLogin = (prop) => {
         axios.get("/sanctum/csrf-cookie").then(() => {
             axios
-                .get(`/api/login/${prop}/`)
+                .get(`/login/${prop}/`)
                 .then((response) => {
                     console.log("response", response);
                     dispatch({ type: LOGIN });
