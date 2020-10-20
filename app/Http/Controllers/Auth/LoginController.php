@@ -74,9 +74,12 @@ class LoginController extends Controller
      */
     public function redirectToProvider($provider)
     {
+        Log::debug('redirectToProvider');
+        Log::debug('provider');
+        Log::debug($provider);
         return Socialite::driver($provider)->redirect();
     }
-
+    
     /**
      * OAuth認証の結果受け取り
      *
@@ -86,18 +89,22 @@ class LoginController extends Controller
     public function handleProviderCallback($provider)
     {
         try {
+            Log::debug('try');
             $providerUser = Socialite::with($provider)->user();
         } catch (\Exception $e) {
+            Log::debug('catch');
             return redirect('/login')->with('oauth_error', '予期せぬエラーが発生しました');
         }
-
+        
         if ($email = $providerUser->getEmail()) {
+            Log::debug('ifの中');
             Auth::login(User::firstOrCreate([
                 'email' => $email
             ], [
                 'name' => $providerUser->getName()
-            ]));
-
+                ]));
+                
+                Log::debug('ログイン後');
             return response()->json(Auth::user());
         } else {
             return response()->json('oauth_error');

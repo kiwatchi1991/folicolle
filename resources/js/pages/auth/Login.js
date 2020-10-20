@@ -175,6 +175,9 @@ const Login = (props) => {
                 });
         });
     };
+    const oAuthTwitter = () => {
+        oAuthLogin("twitter");
+    };
     return state.auth.isLoggedIn ? (
         <Redirect to={"/"} />
     ) : (
@@ -245,7 +248,7 @@ const Login = (props) => {
                                         </button>
                                     </li>
                                     <li>
-                                        <button css={[snsBtn, twitter]} onClick={oAuthLogin("twitter")}>
+                                        <button css={[snsBtn, twitter]} onClick={oAuthTwitter}>
                                             <img src="/images/twitter.svg" alt="twitterのアイコン" />
                                         </button>
                                     </li>

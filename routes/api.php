@@ -26,7 +26,7 @@ Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
 //SNSログイン
 Route::get('/login/{provider}', 'Auth\LoginController@redirectToProvider');
-Route::get('login/{provider}/callback', 'Auth\LoginController@handleProviderCallback');
+Route::get('/login/{provider}/callback', 'Auth\LoginController@handleProviderCallback');
 
 Route::get('/auth', 'AuthController@authConfirm')->name('auth');
 
