@@ -99,17 +99,17 @@ class LoginController extends Controller
         }
 
         // TwitterIDが存在する場合は、進む
-        $hasTwitterID = User::where('twitter_id', $providerUser->id)->first();
+        $hasTwitterID = User::where('twitter_id', $providerUser->id)->first() ? true : false;
         Log::debug('hasTwitterId');
         Log::debug($hasTwitterID);
 
         // TwitterIDが存在しない場合　emailがある→エラー
         // TwitterIDが存在しない場合　emailがない→進む
-        $isExistSameEmal = User::where('email', $providerUser->getEmail());
-        Log::debug('isExistSameEmal');
-        Log::debug($isExistSameEmal);
+        $isExistSameEmail = User::where('email', $providerUser->getEmail())->first() ? true : false;
+        Log::debug('isExistSameEmail');
+        Log::debug($isExistSameEmail);
 
-        if ($hasTwitterID || !$isExistSameEmal) {
+        if ($hasTwitterID || !$isExistSameEmail) {
             Log::debug('ifの中');
             Auth::login(User::firstOrCreate([
                 'email' => $providerUser->getEmail()
