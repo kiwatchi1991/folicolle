@@ -112,12 +112,13 @@ class LoginController extends Controller
             Log::debug('ifの中');
             // Log::debug($provider->getName());
             // Log::debug($provider->getId());
-            Auth::login(User::firstOrCreate([
+            $user = User::firstOrCreate([
                 'email' => $providerUser->getEmail()
             ], [
                 'comment' => $providerUser->getNickname(),
                 'name' => $providerUser->getName(),
-            ]));
+            ]);
+            Auth::login($user)
 
             return response()->json(Auth::user());
         } else {
