@@ -80,7 +80,7 @@ class LoginController extends Controller
         Log::debug(Socialite::driver($provider)->redirect());
         return Socialite::driver($provider)->redirect();
     }
-    
+
     /**
      * OAuth認証の結果受け取り
      *
@@ -97,16 +97,27 @@ class LoginController extends Controller
             Log::debug('catch');
             return redirect('/login')->with('oauth_error', '予期せぬエラーが発生しました');
         }
-        
-        if ($email = $providerUser->getEmail()) {
+
+        // TwitterIDが存在する場合は、進む
+        $hasTwitterID = User::where('twitter_id', $providerUser->id)->first();
+        Log::debug('hasTwitterId');
+        Log::debug($hasTwitterID);
+
+        // TwitterIDが存在しない場合　emailがある→エラー
+        // TwitterIDが存在しない場合　emailがない→進む
+        $isExistSameEmal = User::where('email', $providerUser->getEmail());
+        Log::debug('isExistSameEmal');
+        Log::debug($isExistSameEmal);
+
+        if ($hasTwitterID || !$isExistSameEmal) {
             Log::debug('ifの中');
             Auth::login(User::firstOrCreate([
-                'email' => $email
+                'email' => $providerUser->getEmail()
             ], [
                 'name' => $providerUser->getName()
-                ]));
-                
-                Log::debug('ログイン後');
+            ]));
+
+            Log::debug('ログイン後');
             return response()->json(Auth::user());
         } else {
             return response()->json('oauth_error');
