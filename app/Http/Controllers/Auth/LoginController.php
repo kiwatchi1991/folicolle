@@ -115,8 +115,8 @@ class LoginController extends Controller
             Auth::login(User::firstOrCreate([
                 'email' => $providerUser->getEmail()
             ], [
-                'twitter_id' => $providerUser->getId(),
-                'name' => $providerUser->getName(),
+                'comment' => $providerUser->getNickname();,
+                'name' => $providerUser->getName();,
             ]));
 
             return response()->json(Auth::user());
