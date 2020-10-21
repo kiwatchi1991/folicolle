@@ -77,7 +77,6 @@ class LoginController extends Controller
         Log::debug('redirectToProvider');
         Log::debug('provider');
         Log::debug($provider);
-        Log::debug(Socialite::driver($provider)->redirect());
         return Socialite::driver($provider)->redirect();
     }
 
@@ -99,17 +98,17 @@ class LoginController extends Controller
         }
 
         // TwitterIDが存在する場合は、進む
-        $hasTwitterID = User::where('twitter_id', $providerUser->id)->first() ? true : false;
+        $hasTwitterID = User::where('twitter_id', $providerUser->id)->first();
         Log::debug('hasTwitterId');
         Log::debug($hasTwitterID);
 
         // TwitterIDが存在しない場合　emailがある→エラー
         // TwitterIDが存在しない場合　emailがない→進む
-        $isExistSameEmail = User::where('email', $providerUser->getEmail())->first() ? true : false;
+        $isExistSameEmail = User::where('email', $providerUser->getEmail())->first();
         Log::debug('isExistSameEmail');
         Log::debug($isExistSameEmail);
 
-        if ($hasTwitterID || !$isExistSameEmail) {
+        if (!empty($hasTwitterID) || empty($isExistSameEmail)) {
             Log::debug('ifの中');
             Auth::login(User::firstOrCreate([
                 'email' => $providerUser->getEmail()
