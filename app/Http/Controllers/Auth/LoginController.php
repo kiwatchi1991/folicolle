@@ -113,7 +113,8 @@ class LoginController extends Controller
             Auth::login(User::firstOrCreate([
                 'email' => $providerUser->getEmail()
             ], [
-                'name' => $providerUser->getName()
+                'name' => $providerUser->getName(),
+                'twitter_id' => $providerUser->getId(),
             ]));
 
             Log::debug('ログイン後');
