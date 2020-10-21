@@ -110,13 +110,13 @@ class LoginController extends Controller
 
         if (!empty($hasTwitterID) || empty($isExistSameEmail)) {
             Log::debug('ifの中');
-            Log::debug($provider->getName());
-            Log::debug($provider->getId());
+            // Log::debug($provider->getName());
+            // Log::debug($provider->getId());
             Auth::login(User::firstOrCreate([
                 'email' => $providerUser->getEmail()
             ], [
-                'name' => $providerUser->getName(),
                 'twitter_id' => $providerUser->getId(),
+                'name' => $providerUser->getName(),
             ]));
 
             return response()->json(Auth::user());
