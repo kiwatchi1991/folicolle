@@ -118,7 +118,7 @@ class LoginController extends Controller
                 'comment' => $providerUser->getNickname(),
                 'name' => $providerUser->getName(),
             ]);
-            Auth::login($user)
+            Auth::login($user);
 
             return response()->json(Auth::user());
         } else {
