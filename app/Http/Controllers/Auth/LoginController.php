@@ -95,7 +95,7 @@ class LoginController extends Controller
             $providerUser = \Socialite::with($provider)->user();
         } catch (\Exception $e) {
             Log::debug('catch');
-            return redirect('/login')->with('oauth_error', '予期せぬエラーが発生しました');
+            return response()->json('oauth_error', '予期せぬエラーが発生しました');
         }
 
         // TwitterIDが存在する場合は、進む
