@@ -34,7 +34,7 @@ const Top = (props) => {
             .get("/sanctum/csrf-cookie")
             .then(() => axios.get("/api/auth"))
             .then((response) => {
-                response.data.user && dispatch({ type: AUTHCHECK });
+                response.data && dispatch({ type: AUTHCHECK });
                 dispatch({ type: LOAD });
                 console.log("TOPのdispatchのあと" + state.auth.isLoggedIn);
             });
@@ -62,7 +62,7 @@ const Top = (props) => {
                 });
         });
     };
-    return !state.firstLoad ? (
+    return (
         <Layout>
             <div css={title}>TOP</div>
             <div css={text}>{state.auth.isLoggedIn ? `ログインしています` : `ログインしていません`}</div>
@@ -70,8 +70,6 @@ const Top = (props) => {
                 ログアウト
             </button>
         </Layout>
-    ) : (
-        ""
     );
 };
 

@@ -5,7 +5,7 @@ const Auth = (props) => {
     const isLoggedIn = async () => {
         const res = await axios.get("/sanctum/csrf-cookie").then((response) => {
             axios
-                .get("/api/user")
+                .get("/api/auth")
                 .then((res) => {
                     console.log("then", res);
                 })
