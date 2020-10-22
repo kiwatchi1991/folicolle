@@ -166,6 +166,12 @@ const Login = (props) => {
     const oAuthTwitter = () => {
         toOAuthLoginPage("twitter");
     };
+    const oAuthGithub = () => {
+        toOAuthLoginPage("github");
+    };
+    const oAuthGoogle = () => {
+        toOAuthLoginPage("google");
+    };
     return state.auth.isLoggedIn ? (
         <Redirect to={"/"} />
     ) : (
@@ -226,12 +232,12 @@ const Login = (props) => {
                             <li>
                                 <ul css={sns}>
                                     <li>
-                                        <button css={[snsBtn, github]}>
+                                        <button css={[snsBtn, github]} onClick={oAuthGithub}>
                                             <img src="/images/github.svg" alt="githubのアイコン" />
                                         </button>
                                     </li>
                                     <li>
-                                        <button css={[snsBtn, google]}>
+                                        <button css={[snsBtn, google]} onClick={oAuthGoogle}>
                                             <img src="/images/google.svg" alt="googleのアイコン" />
                                         </button>
                                     </li>

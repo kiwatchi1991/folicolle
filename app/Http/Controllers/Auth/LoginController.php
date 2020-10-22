@@ -97,23 +97,23 @@ class LoginController extends Controller
             return response()->json('oauth_error', '予期せぬエラーが発生しました');
         }
 
-        // TwitterIDが存在する場合は、進む
-        $hasTwitterID = User::where('twitter_id', $providerUser->id)->first();
+        // ソーシャルIDが存在する場合は、進む
+        $hasSocialID = User::where(`${$provider}_id`, $providerUser->id)->first();
         Log::debug('hasTwitterId');
-        Log::debug($hasTwitterID);
+        Log::debug($hasSocialID);
 
-        // TwitterIDが存在しない場合　emailがある→エラー
-        // TwitterIDが存在しない場合　emailがない→進む
+        // ソーシャルIDが存在しない場合　emailがある→エラー
+        // ソーシャルIDが存在しない場合　emailがない→進む
         $isExistSameEmail = User::where('email', $providerUser->getEmail())->first();
         Log::debug('isExistSameEmail');
         Log::debug($isExistSameEmail);
 
-        if (!empty($hasTwitterID) || empty($isExistSameEmail)) {
+        if (!empty($hasSocialID) || empty($isExistSameEmail)) {
             Log::debug('ifの中');
             $user = User::firstOrCreate([
                 'email' => $providerUser->getEmail()
             ], [
-                'twitter_id' => $providerUser->getId(),
+                `${$provider}_id` => $providerUser->getId(),
                 'name' => $providerUser->getName(),
             ]);
             Auth::login($user);
