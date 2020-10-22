@@ -19,6 +19,6 @@ class AuthController extends Controller
             Log::debug('null');
             $response = null;
         }
-        return response()->json($response);
+        return response()->json(['user' => $response]);
     }
 }
