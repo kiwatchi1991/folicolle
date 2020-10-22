@@ -98,7 +98,7 @@ class LoginController extends Controller
         }
 
         // ソーシャルIDが存在する場合は、進む
-        $hasSocialID = User::where(`${$provider}_id`, $providerUser->id)->first();
+        $hasSocialID = User::where(${$provider} . '_id', $providerUser->id)->first();
         Log::debug('hasTwitterId');
         Log::debug($hasSocialID);
 
@@ -113,7 +113,7 @@ class LoginController extends Controller
             $user = User::firstOrCreate([
                 'email' => $providerUser->getEmail()
             ], [
-                `${$provider}_id` => $providerUser->getId(),
+                ${$provider} . '_id' => $providerUser->getId(),
                 'name' => $providerUser->getName(),
             ]);
             Auth::login($user);
