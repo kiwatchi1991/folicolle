@@ -160,23 +160,11 @@ const Login = (props) => {
                 });
         });
     };
-    const oAuthLogin = (prop) => {
-        axios.get("/sanctum/csrf-cookie").then(() => {
-            axios
-                .get(`/api/login/${prop}/`)
-                .then((response) => {
-                    console.log("response", response);
-                    dispatch({ type: LOGIN });
-                    console.log("dispatchあとのstate", state);
-                    props.history.push("/");
-                })
-                .catch(() => {
-                    console.log("error!");
-                });
-        });
+    const toOAuthLoginPage = (provider) => {
+        window.location.href = `/api/login/${provider}`;
     };
     const oAuthTwitter = () => {
-        oAuthLogin("twitter");
+        toOAuthLoginPage("twitter");
     };
     return state.auth.isLoggedIn ? (
         <Redirect to={"/"} />
