@@ -161,7 +161,7 @@ const Login = (props) => {
         });
     };
     const toOAuthLoginPage = (provider) => {
-        window.location.href = `/api/login/${provider}`;
+        window.location.href = `/login/${provider}`;
     };
     const oAuthTwitter = () => {
         toOAuthLoginPage("twitter");
