@@ -118,9 +118,9 @@ class LoginController extends Controller
             ]);
             Auth::login($user);
 
-            return response()->json(Auth::user());
+            return redirect('/');
         } else {
-            return response()->json('oauth_error');
+            return redirect('/');
         }
     }
 }
