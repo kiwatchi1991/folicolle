@@ -12,7 +12,6 @@ import { AUTHCHECK } from "../actions";
 
 function App() {
     let initialState = {
-        firstLoad: true,
         auth: { isLoggedIn: null },
     };
     const isLoggedIn = () => {
