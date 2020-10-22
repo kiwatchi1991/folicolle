@@ -1,9 +1,7 @@
-import React, { useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import Layout from "../components/Layout/Layout";
 import AppContext from "../contexts/AppContexts";
 import { LOGOUT } from "../actions";
-import { AUTHCHECK } from "../actions";
-import { LOAD } from "../actions";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 import Style from "../Style";
@@ -29,20 +27,6 @@ const Top = (props) => {
         margin: 24px auto 0;
     `;
 
-    const res = () => {
-        return axios
-            .get("/sanctum/csrf-cookie")
-            .then(() => axios.get("/api/auth"))
-            .then((response) => {
-                response.data && dispatch({ type: AUTHCHECK });
-                dispatch({ type: LOAD });
-                console.log("TOPのdispatchのあと" + state.auth.isLoggedIn);
-            });
-    };
-
-    useEffect(() => {
-        res();
-    }, []);
     const { state, dispatch } = useContext(AppContext);
 
     const logout = () => {

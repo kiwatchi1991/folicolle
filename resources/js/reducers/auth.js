@@ -15,8 +15,9 @@ const auth = (state = [], action) => {
             console.log("dispatchのlogout");
             return { isLoggedIn: false };
         case AUTHCHECK:
-            console.log("dispatchのauthCheck");
-            return { isLoggedIn: true };
+            // eslint-disable-next-line no-case-declarations
+            const auth = action.loggedInUser ? true : false;
+            return { isLoggedIn: auth };
         default:
             return state;
     }

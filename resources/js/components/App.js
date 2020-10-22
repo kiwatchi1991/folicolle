@@ -9,32 +9,26 @@ import Guest from "./Guest";
 import AppContext from "../contexts/AppContexts";
 import reducer from "../reducers";
 import { AUTHCHECK } from "../actions";
-import { LOAD } from "../actions";
 
 function App() {
     let initialState = {
         firstLoad: true,
-        auth: { isLoggedIn: false },
+        auth: { isLoggedIn: null },
     };
-    const res = () => {
+    const isLoggedIn = () => {
         return axios
             .get("/sanctum/csrf-cookie")
             .then(() => axios.get("/api/auth"))
             .then((response) => {
-                console.log("Appコンポーネントのresponse");
-                console.log(response);
-                response.data && dispatch({ type: AUTHCHECK });
-                dispatch({ type: LOAD });
+                const loggedInUser = response.data.user;
+                dispatch({ type: AUTHCHECK, loggedInUser });
             });
     };
     useEffect(() => {
-        res();
-        console.log("state", state);
-    }, [state]);
-    const [localState, setState] = useState(false);
-
+        isLoggedIn();
+    }, []);
     const [state, dispatch] = useReducer(reducer, initialState);
-    return !state.firstLoad ? (
+    return state.auth.isLoggedIn !== null ? (
         <AppContext.Provider value={{ state, dispatch }}>
             <Router>
                 <Switch>
