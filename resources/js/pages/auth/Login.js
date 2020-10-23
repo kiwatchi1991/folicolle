@@ -38,8 +38,9 @@ const Login = (props) => {
     const formWrap = css`
         margin-top: 18px;
     `;
-    const inputrap = css`
+    const inputWrap = css`
         margin-top: 12px;
+        text-align: left;
     `;
     const input = css`
         border: 1px solid ${Style.color.main};
@@ -122,6 +123,12 @@ const Login = (props) => {
     const twitter = css`
         background: #1da1f2;
     `;
+    const error = css`
+        color: red;
+        margin-top: 4px;
+        font-size: 14px;
+        display: block;
+    `;
     const a = css`
         //
     `;
@@ -146,8 +153,8 @@ const Login = (props) => {
         axios.get("/sanctum/csrf-cookie").then(() => {
             axios
                 .post("/api/login", {
-                    email: localState.email,
-                    password: localState.password,
+                    email: localState.value.email,
+                    password: localState.value.password,
                 })
                 .then((response) => {
                     console.log("response", response);
@@ -172,6 +179,36 @@ const Login = (props) => {
     const oAuthGoogle = () => {
         toOAuthLoginPage("google");
     };
+    const validEmail = (email) => {
+        console.log("validEmail!");
+        console.log(email);
+        if (!email) {
+            return "メールアドレスを入力してください";
+        }
+
+        const regex = /^[!#$%&'*+\-./=?^_`{|}~[\]0-9a-zA-Z]+@[a-z0-9-_]+(\.[a-z0-9-_]+)+$/;
+        if (!regex.test(email)) return "正しい形式でメールアドレスを入力してください";
+
+        return "";
+    };
+
+    const handleChange = (e) => {
+        console.log("e");
+        console.log(e.target.name);
+        const eventType = e.target.name;
+        if (eventType === "email") {
+            const emailMessage = validEmail(e.target.value);
+            setState({
+                ...localState,
+                value: { ...localState.value, email: e.target.value },
+                message: { ...localState.message, email: emailMessage },
+            });
+        } else if (eventType === "password") {
+            //
+        }
+    };
+
+    //バリデーション
     return state.auth.isLoggedIn ? (
         <Redirect to={"/"} />
     ) : (
@@ -180,81 +217,89 @@ const Login = (props) => {
                 <div css={wrapper}>
                     <div css={inner}>
                         <div css={title}>ログイン</div>
-                        <ul css={formWrap}>
-                            <li css={inputrap}>
-                                <input
-                                    id="email"
-                                    type="email"
-                                    css={input}
-                                    name="email"
-                                    value={localState.email}
-                                    placeholder="メールアドレス"
-                                    onChange={(e) => setState({ ...localState, email: e.target.value })}
-                                />
-                                <span css={a} role="alert">
-                                    <strong></strong>
-                                </span>
-                            </li>
-                            <li css={inputrap}>
-                                <input
-                                    id="password"
-                                    type="password"
-                                    name="password"
-                                    css={input}
-                                    value={localState.password}
-                                    placeholder="パスワード"
-                                    onChange={(e) => setState({ ...localState, password: e.target.value })}
-                                />
+                        <form>
+                            <ul css={formWrap}>
+                                <li css={inputWrap}>
+                                    <input
+                                        id="email"
+                                        type="email"
+                                        css={input}
+                                        name="email"
+                                        value={localState.value.email}
+                                        placeholder="メールアドレス"
+                                        onChange={(e) => {
+                                            handleChange(e);
+                                        }}
+                                    />
+                                    {localState.message.email && <span css={error}>{localState.message.email}</span>}
+                                </li>
+                                <li css={inputWrap}>
+                                    <input
+                                        id="password"
+                                        type="password"
+                                        name="password"
+                                        css={input}
+                                        value={localState.value.password}
+                                        placeholder="パスワード"
+                                        onChange={(e) => {
+                                            setState({
+                                                ...localState,
+                                                value: { ...localState.value, password: e.target.value },
+                                            });
+                                            validEmail(e.target.value);
+                                        }}
+                                    />
 
-                                <span css={a} role="alert">
-                                    <strong></strong>
-                                </span>
-                            </li>
-                            {/* <li css={a}>
+                                    <span css={error} role="alert">
+                                        <strong></strong>
+                                    </span>
+                                </li>
+                                {/* <li css={a}>
                                     <input css={a} type="checkbox" name="remember" id="remember" />
 
                                     <label css={a} htmlFor="remember">
                                         Remember me
                                     </label>
                                 </li> */}
-                            <li css={buttonWrap}>
-                                <button type="button" css={button} onClick={login}>
-                                    ログイン
-                                </button>
-                            </li>
-                            <li css={forget}>
-                                パスワードを忘れた方は
-                                {/* <Link css={forgetLink} href="/password/request">
+                                <li css={buttonWrap}>
+                                    <button type="button" css={button} onClick={login}>
+                                        ログイン
+                                    </button>
+                                </li>
+                                <li css={forget}>
+                                    パスワードを忘れた方は
+                                    {/* <Link css={forgetLink} href="/password/request">
                                     こちら
                                 </Link> */}
-                            </li>
-                            <li css={or}>または</li>
-                            <li>
-                                <ul css={sns}>
-                                    <li>
-                                        <button css={[snsBtn, github]} onClick={oAuthGithub}>
-                                            <img src="/images/github.svg" alt="githubのアイコン" />
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button css={[snsBtn, google]} onClick={oAuthGoogle}>
-                                            <img src="/images/google.svg" alt="googleのアイコン" />
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button css={[snsBtn, twitter]} onClick={oAuthTwitter}>
-                                            <img src="/images/twitter.svg" alt="twitterのアイコン" />
-                                        </button>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li css={toRegister}>
-                                アカウントをお持ちでないですか？
-                                <Link to={{ pathname: "Register" }} css={toRegisterLink}>
-                                    新規登録
-                                </Link>
-                            </li>
-                        </ul>
+                                </li>
+                                <li css={or}>または</li>
+                                <li>
+                                    <ul css={sns}>
+                                        <li>
+                                            <button css={[snsBtn, github]} onClick={oAuthGithub}>
+                                                <img src="/images/github.svg" alt="githubのアイコン" />
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button css={[snsBtn, google]} onClick={oAuthGoogle}>
+                                                <img src="/images/google.svg" alt="googleのアイコン" />
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button css={[snsBtn, twitter]} onClick={oAuthTwitter}>
+                                                <img src="/images/twitter.svg" alt="twitterのアイコン" />
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li css={toRegister}>
+                                    アカウントをお持ちでないですか？
+                                    <Link to={{ pathname: "Register" }} css={toRegisterLink}>
+                                        新規登録
+                                    </Link>
+                                </li>
+                            </ul>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -265,8 +310,14 @@ const Login = (props) => {
     );
 };
 Login.defaultProps = {
-    email: "",
-    password: "",
+    value: {
+        email: "",
+        password: "",
+    },
+    message: {
+        email: "",
+        password: "",
+    },
 };
 
 export default Login;
