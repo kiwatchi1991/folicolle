@@ -32,7 +32,7 @@ mix.webpackConfig({
  |
  */
 
-mix.react("resources/js/app.js", "public/js")
+mix.ts("resources/js/app.tsx", "public/js")
     .sass("resources/sass/app.scss", "public/css")
     .sourceMaps()
     .browserSync({
