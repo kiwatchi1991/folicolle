@@ -145,7 +145,7 @@ const Login = (props) => {
         }
     `;
     const { state, dispatch } = useContext(AppContext);
-    console.log("dLOGIn画面読み込み時のstate", state);
+    console.log("ログイン画面読み込み時のstate", state);
 
     const [localState, setState] = useState(props);
 
@@ -180,21 +180,21 @@ const Login = (props) => {
         toOAuthLoginPage("google");
     };
     const validEmail = (email) => {
-        console.log("validEmail!");
-        console.log(email);
-        if (!email) {
-            return "メールアドレスを入力してください";
-        }
+        if (!email) return "メールアドレスを入力してください";
 
         const regex = /^[!#$%&'*+\-./=?^_`{|}~[\]0-9a-zA-Z]+@[a-z0-9-_]+(\.[a-z0-9-_]+)+$/;
         if (!regex.test(email)) return "正しい形式でメールアドレスを入力してください";
 
         return "";
     };
+    const validPassword = (password) => {
+        if (!password) return "パスワードを入力してください";
+        if (password.length < 8) return "パスワードは8文字以上で入力してください";
+
+        return "";
+    };
 
     const handleChange = (e) => {
-        console.log("e");
-        console.log(e.target.name);
         const eventType = e.target.name;
         if (eventType === "email") {
             const emailMessage = validEmail(e.target.value);
@@ -204,7 +204,12 @@ const Login = (props) => {
                 message: { ...localState.message, email: emailMessage },
             });
         } else if (eventType === "password") {
-            //
+            const passwordMessage = validPassword(e.target.value);
+            setState({
+                ...localState,
+                value: { ...localState.value, password: e.target.value },
+                message: { ...localState.message, password: passwordMessage },
+            });
         }
     };
 
@@ -242,25 +247,13 @@ const Login = (props) => {
                                         value={localState.value.password}
                                         placeholder="パスワード"
                                         onChange={(e) => {
-                                            setState({
-                                                ...localState,
-                                                value: { ...localState.value, password: e.target.value },
-                                            });
-                                            validEmail(e.target.value);
+                                            handleChange(e);
                                         }}
                                     />
-
-                                    <span css={error} role="alert">
-                                        <strong></strong>
-                                    </span>
+                                    {localState.message.password && (
+                                        <span css={error}>{localState.message.password}</span>
+                                    )}
                                 </li>
-                                {/* <li css={a}>
-                                    <input css={a} type="checkbox" name="remember" id="remember" />
-
-                                    <label css={a} htmlFor="remember">
-                                        Remember me
-                                    </label>
-                                </li> */}
                                 <li css={buttonWrap}>
                                     <button type="button" css={button} onClick={login}>
                                         ログイン
@@ -303,9 +296,6 @@ const Login = (props) => {
                     </div>
                 </div>
             </div>
-            {/* <Logout history={props} />
-            <Link to={{ pathname: "Register" }}>Register</Link>
-            <Link to={{ pathname: "Login" }}>Login</Link> */}
         </Layout>
     );
 };
