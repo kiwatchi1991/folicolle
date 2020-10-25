@@ -1,5 +1,5 @@
-import React, { useReducer, useEffect } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import React, { useReducer, useEffect, useContext } from "react";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import Top from "../pages/Top";
@@ -8,29 +8,19 @@ import Auth from "./Auth";
 import Guest from "./Guest";
 import AppContext from "../contexts/AppContexts";
 import reducer from "../reducers";
-import { AUTHCHECK } from "../actions";
-import axios from 'axios';
-
+/** @jsx jsx */
+import { jsx, css } from "@emotion/core";
+jsx;
 function App() {
-    let initialState: {
+    const initialState: {
         auth: { isLoggedIn: boolean | null}
     } = {
         auth: { isLoggedIn: null },
     };
-    const isLoggedIn = () => {
-        return axios
-            .get("/sanctum/csrf-cookie")
-            .then(() => axios.get("/api/auth"))
-            .then((response) => {
-                const loggedInUser = response.data.user;
-                dispatch({ type: AUTHCHECK, payload: loggedInUser });
-            });
-    };
-    useEffect(() => {
-        isLoggedIn();
-    }, []);
-    const [state, dispatch] = useReducer(reducer, initialState);
-    return state.auth.isLoggedIn !== null ? (
+    console.log("initialState");
+    console.log(initialState);
+    const [state, dispatch] = useReducer<any>(reducer, initialState);
+    return (
         <AppContext.Provider value= {{ state, dispatch }}>
             <Router>
                 <Switch>
@@ -41,12 +31,11 @@ function App() {
                     </Guest>
                     <Auth>
                         <Route exact path="/Sample" component={Sample} />
+                        <Redirect to="/" />;
                     </Auth>
                 </Switch>
             </Router>
         </AppContext.Provider>
-    ) : (
-        null
     );
 }
 

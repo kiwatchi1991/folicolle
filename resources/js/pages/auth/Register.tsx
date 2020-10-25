@@ -9,8 +9,14 @@ import { REGISTER } from "../../actions";
 import { css, jsx } from "@emotion/core";
 import Style from "../../Style";
 import AppContext from "../../contexts/AppContexts";
-
-const Register = (props) => {
+jsx;
+type defaultPropsType = {
+    name: string
+    email: string
+    password: string,
+    password_confirmation: string,
+};
+const Register = (props:defaultPropsType) => {
     //style
     const body = css`
         background: ${Style.color.bg};

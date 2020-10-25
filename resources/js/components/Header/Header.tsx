@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 import Style from "../../Style/index";
-
+jsx;
 const Header = () => {
     const header = css`
         font-size: 20px;

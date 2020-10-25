@@ -1,12 +1,17 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Layout from "../components/Layout/Layout";
 import AppContext from "../contexts/AppContexts";
 import { LOGOUT } from "../actions";
+import axios from 'axios';
+import { AUTHCHECK } from "../actions";
+
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 import Style from "../Style";
 
-const Top = (props) => {
+jsx;
+type defaultPropsType = any
+const Top = (props:defaultPropsType) => {
     //style
     const title = css`
         font-size: 2.4rem;
@@ -27,8 +32,20 @@ const Top = (props) => {
         margin: 24px auto 0;
     `;
 
-    const { state, dispatch } = useContext(AppContext);
+const isLoggedIn = () => {
+    return axios
+    .get("/sanctum/csrf-cookie")
+    .then(() => axios.get("/api/auth"))
+    .then((response) => {
+        const loggedInUser = response.data.user;
+        dispatch({ type: AUTHCHECK, loggedInUser });
+    });
 
+};
+useEffect(() => {
+    isLoggedIn();
+}, []);
+const { state, dispatch } = useContext(AppContext);
     const logout = () => {
         axios.get("/sanctum/csrf-cookie").then(() => {
             axios
@@ -40,13 +57,13 @@ const Top = (props) => {
                     // eslint-disable-next-line react/prop-types
                     props.history.push("/");
                 })
-                .catch((error) => {
+                .catch((error:any) => {
                     console.log("error!");
                     console.log(error);
                 });
         });
     };
-    return (
+    return state.auth.isLoggedIn !== null ? (
         <Layout>
             <div css={title}>TOP</div>
             <div css={text}>{state.auth.isLoggedIn ? `ログインしています` : `ログインしていません`}</div>
@@ -54,7 +71,9 @@ const Top = (props) => {
                 ログアウト
             </button>
         </Layout>
-    );
+    ) : (
+            null
+        );
 };
 
 export default Top;

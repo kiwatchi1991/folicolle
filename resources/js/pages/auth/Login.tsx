@@ -3,13 +3,25 @@ import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import Layout from "../../components/Layout/Layout";
 /** @jsx jsx */
-import { css, jsx } from "@emotion/core";
+import { jsx, css } from "@emotion/core";
 import Style from "../../Style";
 import { Redirect } from "react-router-dom";
 import { LOGIN } from "../../actions";
 import AppContext from "../../contexts/AppContexts";
+jsx;
 
-const Login = (props) => {
+type defaultPropsType = {
+    value: {
+        email: string
+        password: string
+    },
+    message: {
+        email: string
+        password: string
+    },
+    history: any
+};
+const Login = (props:defaultPropsType) => {
     //style
     const body = css`
         background: ${Style.color.bg};
@@ -167,7 +179,7 @@ const Login = (props) => {
                 });
         });
     };
-    const toOAuthLoginPage = (provider) => {
+    const toOAuthLoginPage = (provider:string) => {
         window.location.href = `/login/${provider}`;
     };
     const oAuthTwitter = () => {
@@ -179,7 +191,7 @@ const Login = (props) => {
     const oAuthGoogle = () => {
         toOAuthLoginPage("google");
     };
-    const validEmail = (email) => {
+    const validEmail = (email:string) => {
         console.log("validEmail!");
         console.log(email);
         if (!email) {
@@ -192,7 +204,7 @@ const Login = (props) => {
         return "";
     };
 
-    const handleChange = (e) => {
+    const handleChange = (e:any) => {
         console.log("e");
         console.log(e.target.name);
         const eventType = e.target.name;
@@ -303,9 +315,6 @@ const Login = (props) => {
                     </div>
                 </div>
             </div>
-            {/* <Logout history={props} />
-            <Link to={{ pathname: "Register" }}>Register</Link>
-            <Link to={{ pathname: "Login" }}>Login</Link> */}
         </Layout>
     );
 };

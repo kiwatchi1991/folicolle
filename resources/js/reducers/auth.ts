@@ -3,9 +3,16 @@ import { LOGIN } from "../actions";
 import { LOGOUT } from "../actions";
 import { AUTHCHECK } from "../actions";
 
+interface IStore {
+    isLoggedIn?:any
+}
 
+interface IAction {
+    type: any;
+    loggedInUser?: any
+}
 
-const auth: React.Reducer<IStore, IAction>  = (state = [], action) => {
+const auth = (state: IStore = {}, action:IAction) => {
     switch (action.type) {
         case REGISTER:
             console.log("REGISTER！！！");
@@ -17,8 +24,9 @@ const auth: React.Reducer<IStore, IAction>  = (state = [], action) => {
             console.log("dispatchのlogout");
             return { isLoggedIn: false };
         case AUTHCHECK:
-            // eslint-disable-next-line no-case-declarations
-            const auth:any = action.loggedInUser ? true : false;
+            console.log("authcheck");
+
+            const auth = action.loggedInUser ? true : false;
             return { isLoggedIn: auth };
         default:
             return state;
