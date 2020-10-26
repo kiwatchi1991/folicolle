@@ -191,37 +191,28 @@ const Login = (props:defaultPropsType) => {
     const oAuthGoogle = () => {
         toOAuthLoginPage("google");
     };
-<<<<<<< HEAD:resources/js/pages/auth/Login.js
-    const validEmail = (email) => {
-        if (!email) return "メールアドレスを入力してください";
-=======
     const validEmail = (email:string) => {
         console.log("validEmail!");
         console.log(email);
         if (!email) {
             return "メールアドレスを入力してください";
         }
->>>>>>> b5a627286e5f85beeb79a2939c6f442ca39aea83:resources/js/pages/auth/Login.tsx
 
         const regex = /^[!#$%&'*+\-./=?^_`{|}~[\]0-9a-zA-Z]+@[a-z0-9-_]+(\.[a-z0-9-_]+)+$/;
         if (!regex.test(email)) return "正しい形式でメールアドレスを入力してください";
 
         return "";
     };
-    const validPassword = (password) => {
+    const validPassword = (password:string) => {
         if (!password) return "パスワードを入力してください";
         if (password.length < 8) return "パスワードは8文字以上で入力してください";
 
         return "";
     };
 
-<<<<<<< HEAD:resources/js/pages/auth/Login.js
-    const handleChange = (e) => {
-=======
     const handleChange = (e:any) => {
         console.log("e");
         console.log(e.target.name);
->>>>>>> b5a627286e5f85beeb79a2939c6f442ca39aea83:resources/js/pages/auth/Login.tsx
         const eventType = e.target.name;
         if (eventType === "email") {
             const emailMessage = validEmail(e.target.value);
@@ -241,9 +232,7 @@ const Login = (props:defaultPropsType) => {
     };
 
     //バリデーション
-    return state.auth.isLoggedIn ? (
-        <Redirect to={"/"} />
-    ) : (
+    return (
         <Layout>
             <div css={body}>
                 <div css={wrapper}>

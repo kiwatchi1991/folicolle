@@ -24,8 +24,6 @@ const auth = (state: IStore = {}, action:IAction) => {
             console.log("dispatchのlogout");
             return { isLoggedIn: false };
         case AUTHCHECK:
-            console.log("authcheck");
-
             const auth = action.loggedInUser ? true : false;
             return { isLoggedIn: auth };
         default:

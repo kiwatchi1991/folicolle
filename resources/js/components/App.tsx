@@ -17,8 +17,6 @@ function App() {
     } = {
         auth: { isLoggedIn: null },
     };
-    console.log("initialState");
-    console.log(initialState);
     const [state, dispatch] = useReducer<any>(reducer, initialState);
     return (
         <AppContext.Provider value= {{ state, dispatch }}>
@@ -31,7 +29,6 @@ function App() {
                     </Guest>
                     <Auth>
                         <Route exact path="/Sample" component={Sample} />
-                        <Redirect to="/" />;
                     </Auth>
                 </Switch>
             </Router>

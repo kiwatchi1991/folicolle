@@ -8,8 +8,8 @@ import { AUTHCHECK } from "../actions";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 import Style from "../Style";
-
 jsx;
+
 type defaultPropsType = any
 const Top = (props:defaultPropsType) => {
     //style
@@ -31,21 +31,21 @@ const Top = (props:defaultPropsType) => {
         border-radius: 5px;
         margin: 24px auto 0;
     `;
+const { state, dispatch } = useContext(AppContext);
 
-const isLoggedIn = () => {
-    return axios
-    .get("/sanctum/csrf-cookie")
-    .then(() => axios.get("/api/auth"))
-    .then((response) => {
-        const loggedInUser = response.data.user;
-        dispatch({ type: AUTHCHECK, loggedInUser });
-    });
+const isLoggedIn = async () => {
+    await axios
+        .get("/sanctum/csrf-cookie");
+    const response = await axios.get("/api/auth");
+    console.log("TOP画面のdispatch前");
+    const loggedInUser = response.data.user;
+    dispatch({ type: AUTHCHECK, loggedInUser });
+    console.log("TOP画面のdispatch後のstate", state.auth.isLoggedIn);
 
 };
 useEffect(() => {
     isLoggedIn();
 }, []);
-const { state, dispatch } = useContext(AppContext);
     const logout = () => {
         axios.get("/sanctum/csrf-cookie").then(() => {
             axios

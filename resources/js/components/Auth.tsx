@@ -3,7 +3,8 @@ import { Router, Redirect, RedirectProps} from "react-router-dom";
 import AppContext from "../contexts/AppContexts";
 import axios from 'axios';
 import { AUTHCHECK } from "../actions";
-
+import { jsx } from "@emotion/core";
+jsx;
 type AuthProps = {
     children:any
 }
@@ -22,8 +23,7 @@ const Auth = (props: AuthProps) => {
     return state.auth.isLoggedIn ? (
          props.children
         ) : (
-            // <Redirect to={"/"} />
-            null
+        <Redirect to={"/"} />
     );
 };
 
