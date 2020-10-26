@@ -19,7 +19,7 @@ type defaultPropsType = {
         email: string
         password: string
     },
-    history: any
+    history: any,
 };
 const Login = (props:defaultPropsType) => {
     //style
@@ -75,6 +75,9 @@ const Login = (props:defaultPropsType) => {
         border: none;
         border-radius: 5px;
         height: 50px;
+        &:disabled{
+            opacity: 0.4;
+        }
     `;
     const buttonWrap = css`
         margin-top: 12px;
@@ -213,7 +216,7 @@ const Login = (props:defaultPropsType) => {
     const handleChange = (e:any) => {
         console.log("e");
         console.log(e.target.name);
-        const eventType = e.target.name;
+        const eventType:("email" | "password") = e.target.name;
         if (eventType === "email") {
             const emailMessage = validEmail(e.target.value);
             setState({
@@ -228,7 +231,7 @@ const Login = (props:defaultPropsType) => {
                 value: { ...localState.value, password: e.target.value },
                 message: { ...localState.message, password: passwordMessage },
             });
-        }
+        };
     };
 
     //バリデーション
@@ -271,7 +274,7 @@ const Login = (props:defaultPropsType) => {
                                     )}
                                 </li>
                                 <li css={buttonWrap}>
-                                    <button type="button" css={button} onClick={login}>
+                                    <button type="button" css={button} onClick={login} disabled={!(!localState.message.email && !localState.message.password) }>
                                         ログイン
                                     </button>
                                 </li>

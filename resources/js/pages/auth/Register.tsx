@@ -11,10 +11,18 @@ import Style from "../../Style";
 import AppContext from "../../contexts/AppContexts";
 jsx;
 type defaultPropsType = {
-    name: string
-    email: string
-    password: string,
-    password_confirmation: string,
+    value: {
+        name: string
+        email: string
+        password: string,
+        password_confirmation: string,
+    },
+    message: {
+        name: string
+        email: string
+        password: string,
+    },
+    history: any,
 };
 const Register = (props:defaultPropsType) => {
     //style
@@ -47,6 +55,7 @@ const Register = (props:defaultPropsType) => {
     `;
     const inputWrap = css`
         margin-top: 12px;
+        text-align: left;
     `;
     const input = css`
         border: 1px solid ${Style.color.main};
@@ -69,6 +78,9 @@ const Register = (props:defaultPropsType) => {
         border: none;
         border-radius: 5px;
         height: 50px;
+        &:disabled{
+            opacity: 0.4;
+        }
     `;
     const buttonWrap = css`
         margin-top: 12px;
@@ -129,6 +141,12 @@ const Register = (props:defaultPropsType) => {
     const twitter = css`
         background: #1da1f2;
     `;
+    const error = css`
+        color: red;
+        margin-top: 4px;
+        font-size: 14px;
+        display: block;
+    `;
     const a = css`
         //
     `;
@@ -151,18 +169,91 @@ const Register = (props:defaultPropsType) => {
         axios.get("/sanctum/csrf-cookie").then((response) => {
             axios
                 .post("/api/register", {
-                    name: localState.name,
-                    email: localState.email,
-                    password: localState.password,
-                    password_confirmation: localState.password_confirmation,
+                    name: localState.value.name,
+                    email: localState.value.email,
+                    password: localState.value.password,
+                    password_confirmation: localState.value.password_confirmation,
                 })
                 .then((response) => {
                     dispatch({ type: REGISTER });
+                    props.history.push("/");
                 })
                 .catch((error) => {
                     console.log("error!");
                 });
         });
+    };
+    const toOAuthLoginPage = (provider:string) => {
+        window.location.href = `/login/${provider}`;
+    };
+    const oAuthTwitter = () => {
+        toOAuthLoginPage("twitter");
+    };
+    const oAuthGithub = () => {
+        toOAuthLoginPage("github");
+    };
+    const oAuthGoogle = () => {
+        toOAuthLoginPage("google");
+    };
+
+    const validName = (name:string) => {
+        console.log("validName!");
+        console.log(name);
+        if (!name) {
+            return "ユーザー名を入力してください";
+        }
+        return "";
+    };
+    const validEmail = (email:string) => {
+        console.log("validEmail!");
+        console.log(email);
+        if (!email) {
+            return "メールアドレスを入力してください";
+        }
+
+        const regex = /^[!#$%&'*+\-./=?^_`{|}~[\]0-9a-zA-Z]+@[a-z0-9-_]+(\.[a-z0-9-_]+)+$/;
+        if (!regex.test(email)) return "正しい形式でメールアドレスを入力してください";
+
+        return "";
+    };
+    const validPassword = (password:string) => {
+        if (!password) return "パスワードを入力してください";
+        if (password.length < 8) return "パスワードは8文字以上で入力してください";
+
+        return "";
+    };
+
+    const handleChange = (e:any) => {
+        console.log("e");
+        console.log(e.target.name);
+        const eventType:("name" | "email" | "password" | "password_confirmation") = e.target.name;
+        if (eventType === "name") {
+            const nameMessage = validName(e.target.value);
+            setState({
+                ...localState,
+                value: { ...localState.value, name: e.target.value },
+                message: { ...localState.message, name: nameMessage },
+            });
+        } else if(eventType === "email") {
+            const emailMessage = validEmail(e.target.value);
+            setState({
+                ...localState,
+                value: { ...localState.value, email: e.target.value },
+                message: { ...localState.message, email: emailMessage },
+            });
+        } else if (eventType === "password") {
+            const passwordMessage = validPassword(e.target.value);
+            setState({
+                ...localState,
+                value: { ...localState.value, password: e.target.value },
+                message: { ...localState.message, password: passwordMessage },
+            });
+        } else if (eventType === "password_confirmation") {
+            setState({
+                ...localState,
+                value: { ...localState.value, password_confirmation: e.target.value },
+            });
+        };
     };
     return state.auth.isLoggedIn ? (
         <Redirect to={"/"} />
@@ -179,12 +270,15 @@ const Register = (props:defaultPropsType) => {
                                     type="text"
                                     css={input}
                                     name="name"
-                                    value={localState.name}
-                                    onChange={(e) => setState({ ...localState, name: e.target.value })}
+                                    value={localState.value.name}
+                                    onChange={(e) => {
+                                        handleChange(e);
+                                    }}
                                     placeholder="ユーザー名"
                                     required
                                     autoComplete="name"
-                                />
+                                    />
+                                    {localState.message.name && <span css={error}>{localState.message.name}</span>}
                             </li>
                             <li css={inputWrap}>
                                 <input
@@ -192,13 +286,15 @@ const Register = (props:defaultPropsType) => {
                                     type="email"
                                     css={input}
                                     name="email"
-                                    value={localState.email}
-                                    onChange={(e) => setState({ ...localState, email: e.target.value })}
+                                    value={localState.value.email}
+                                    onChange={(e) => {
+                                        handleChange(e);
+                                    }}
                                     placeholder="メールアドレス"
                                     required
                                     autoComplete="email"
                                 />
-
+                                {localState.message.email && <span css={error}>{localState.message.email}</span>}
                                 <span className="invalid-feedback" role="alert"></span>
                             </li>
 
@@ -208,14 +304,15 @@ const Register = (props:defaultPropsType) => {
                                     type="password"
                                     css={input}
                                     name="password"
-                                    value={localState.password}
-                                    onChange={(e) => setState({ ...localState, password: e.target.value })}
+                                    value={localState.value.password}
+                                    onChange={(e) => {
+                                        handleChange(e);
+                                    }}
                                     placeholder="パスワード"
                                     required
                                     autoComplete="new-password"
                                 />
-
-                                <span className="invalid-feedback" role="alert"></span>
+                            {localState.message.password && <span css={error}>{localState.message.password}</span>}
                             </li>
                             <li css={inputWrap}>
                                 <input
@@ -223,15 +320,17 @@ const Register = (props:defaultPropsType) => {
                                     type="password"
                                     css={input}
                                     name="password_confirmation"
-                                    value={localState.password_confirmation}
-                                    onChange={(e) => setState({ ...localState, password_confirmation: e.target.value })}
+                                    value={localState.value.password_confirmation}
+                                    onChange={(e) => {
+                                        handleChange(e);
+                                    }}
                                     placeholder="パスワード確認"
                                     required
                                     autoComplete="new-password"
                                 />
                             </li>
                             <li css={buttonWrap}>
-                                <button type="button" css={button} onClick={register}>
+                                <button type="button" css={button} onClick={register} disabled={!(!localState.message.email && !localState.message.password) }>
                                     新規登録
                                 </button>
                             </li>
@@ -258,7 +357,7 @@ const Register = (props:defaultPropsType) => {
                             <li css={toLogin}>
                                 アカウントをお持ちでないですか？
                                 <Link to={{ pathname: "Login" }} css={toLoginLink}>
-                                    新規登録
+                                    ログイン
                                 </Link>
                             </li>
                         </ul>
@@ -269,10 +368,17 @@ const Register = (props:defaultPropsType) => {
     );
 };
 Register.defaultProps = {
-    name: "",
-    email: "",
-    password: "",
-    password_confirmation: "",
+    value: {
+        name: "",
+        email: "",
+        password: "",
+        password_confirmation: "",
+    },
+    message: {
+        name: "",
+        email: "",
+        password: "",
+    }
 };
 
 export default Register;
