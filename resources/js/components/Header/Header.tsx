@@ -2,8 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
-import Style from "../../Style/index";
+
 jsx;
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const Header = () => {
     const header = css`
         font-size: 20px;
@@ -20,6 +21,7 @@ const Header = () => {
         font-size: 14px;
         margin-left: 20px;
     `;
+
     return (
         <div css={header}>
             <div>

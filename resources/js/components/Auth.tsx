@@ -1,18 +1,19 @@
 import React, { useContext, useEffect } from "react";
-import { Router, Redirect, RedirectProps} from "react-router-dom";
-import AppContext from "../contexts/AppContexts";
-import axios from 'axios';
-import { AUTHCHECK } from "../actions";
+import { Redirect } from "react-router-dom";
+import axios from "axios";
 import { jsx } from "@emotion/core";
+import AppContext from "../contexts/AppContexts";
+import { AUTHCHECK } from "../actions";
+
 jsx;
+
 type AuthProps = {
-    children:any
-}
+    children: any;
+};
 const Auth = (props: AuthProps) => {
     const { state, dispatch } = useContext(AppContext);
     const isLoggedIn = async () => {
-        await axios
-            .get("/sanctum/csrf-cookie");
+        await axios.get("/sanctum/csrf-cookie");
         const response = await axios.get("/api/auth");
         const loggedInUser = response.data.user;
         dispatch({ type: AUTHCHECK, loggedInUser });
@@ -20,11 +21,8 @@ const Auth = (props: AuthProps) => {
     useEffect(() => {
         isLoggedIn();
     }, []);
-    return state.auth.isLoggedIn ? (
-         props.children
-        ) : (
-        <Redirect to={"/"} />
-    );
+
+    return state.auth.isLoggedIn ? props.children : <Redirect to="/" />;
 };
 
 export default Auth;
