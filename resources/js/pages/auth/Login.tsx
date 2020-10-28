@@ -1,28 +1,29 @@
 import axios from "axios";
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import { jsx, css } from "@emotion/core";
 import Layout from "../../components/Layout/Layout";
 /** @jsx jsx */
-import { jsx, css } from "@emotion/core";
 import Style from "../../Style";
-import { Redirect } from "react-router-dom";
 import { LOGIN } from "../../actions";
 import AppContext from "../../contexts/AppContexts";
+
 jsx;
 
 type defaultPropsType = {
     value: {
-        email: string
-        password: string
-    },
+        email: string;
+        password: string;
+    };
     message: {
-        email: string
-        password: string
-    },
-    history: any,
+        email: string;
+        password: string;
+    };
+    history: any;
 };
-const Login = (props:defaultPropsType) => {
-    //style
+
+const Login = (props: defaultPropsType) => {
+    // style
     const body = css`
         background: ${Style.color.bg};
         height: 100%;
@@ -75,7 +76,7 @@ const Login = (props:defaultPropsType) => {
         border: none;
         border-radius: 5px;
         height: 50px;
-        &:disabled{
+        &:disabled {
             opacity: 0.4;
         }
     `;
@@ -182,7 +183,7 @@ const Login = (props:defaultPropsType) => {
                 });
         });
     };
-    const toOAuthLoginPage = (provider:string) => {
+    const toOAuthLoginPage = (provider: string) => {
         window.location.href = `/login/${provider}`;
     };
     const oAuthTwitter = () => {
@@ -194,7 +195,7 @@ const Login = (props:defaultPropsType) => {
     const oAuthGoogle = () => {
         toOAuthLoginPage("google");
     };
-    const validEmail = (email:string) => {
+    const validEmail = (email: string) => {
         console.log("validEmail!");
         console.log(email);
         if (!email) {
@@ -206,17 +207,17 @@ const Login = (props:defaultPropsType) => {
 
         return "";
     };
-    const validPassword = (password:string) => {
+    const validPassword = (password: string) => {
         if (!password) return "パスワードを入力してください";
         if (password.length < 8) return "パスワードは8文字以上で入力してください";
 
         return "";
     };
 
-    const handleChange = (e:any) => {
+    const handleChange = (e: any) => {
         console.log("e");
         console.log(e.target.name);
-        const eventType:("email" | "password") = e.target.name;
+        const eventType: "email" | "password" = e.target.name;
         if (eventType === "email") {
             const emailMessage = validEmail(e.target.value);
             setState({
@@ -231,10 +232,10 @@ const Login = (props:defaultPropsType) => {
                 value: { ...localState.value, password: e.target.value },
                 message: { ...localState.message, password: passwordMessage },
             });
-        };
+        }
     };
 
-    //バリデーション
+    // バリデーション
     return (
         <Layout>
             <div css={body}>
@@ -274,7 +275,12 @@ const Login = (props:defaultPropsType) => {
                                     )}
                                 </li>
                                 <li css={buttonWrap}>
-                                    <button type="button" css={button} onClick={login} disabled={!(!localState.message.email && !localState.message.password) }>
+                                    <button
+                                        type="button"
+                                        css={button}
+                                        onClick={login}
+                                        disabled={!(!localState.message.email && !localState.message.password)}
+                                    >
                                         ログイン
                                     </button>
                                 </li>
@@ -288,17 +294,17 @@ const Login = (props:defaultPropsType) => {
                                 <li>
                                     <ul css={sns}>
                                         <li>
-                                            <button css={[snsBtn, github]} onClick={oAuthGithub}>
+                                            <button css={[snsBtn, github]} onClick={oAuthGithub} type="button">
                                                 <img src="/images/github.svg" alt="githubのアイコン" />
                                             </button>
                                         </li>
                                         <li>
-                                            <button css={[snsBtn, google]} onClick={oAuthGoogle}>
+                                            <button css={[snsBtn, google]} onClick={oAuthGoogle} type="button">
                                                 <img src="/images/google.svg" alt="googleのアイコン" />
                                             </button>
                                         </li>
                                         <li>
-                                            <button css={[snsBtn, twitter]} onClick={oAuthTwitter}>
+                                            <button css={[snsBtn, twitter]} onClick={oAuthTwitter} type="button">
                                                 <img src="/images/twitter.svg" alt="twitterのアイコン" />
                                             </button>
                                         </li>

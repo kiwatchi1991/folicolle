@@ -179,7 +179,7 @@ const Register = (props:defaultPropsType) => {
                     props.history.push("/");
                 })
                 .catch((error) => {
-                    console.log("error!");
+                           console.log("error!");
                 });
         });
     };

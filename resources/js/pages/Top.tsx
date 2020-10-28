@@ -1,18 +1,18 @@
 import React, { useContext, useEffect } from "react";
+import axios from "axios";
+import { css, jsx } from "@emotion/core";
 import Layout from "../components/Layout/Layout";
 import AppContext from "../contexts/AppContexts";
-import { LOGOUT } from "../actions";
-import axios from 'axios';
-import { AUTHCHECK } from "../actions";
+import { LOGOUT, AUTHCHECK } from "../actions";
 
 /** @jsx jsx */
-import { css, jsx } from "@emotion/core";
 import Style from "../Style";
+
 jsx;
 
-type defaultPropsType = any
-const Top = (props:defaultPropsType) => {
-    //style
+type defaultPropsType = any;
+const Top = (props: defaultPropsType) => {
+    // style
     const title = css`
         font-size: 2.4rem;
         margin-top: 24px;
@@ -31,21 +31,19 @@ const Top = (props:defaultPropsType) => {
         border-radius: 5px;
         margin: 24px auto 0;
     `;
-const { state, dispatch } = useContext(AppContext);
+    const { state, dispatch } = useContext(AppContext);
 
-const isLoggedIn = async () => {
-    await axios
-        .get("/sanctum/csrf-cookie");
-    const response = await axios.get("/api/auth");
-    console.log("TOP画面のdispatch前");
-    const loggedInUser = response.data.user;
-    dispatch({ type: AUTHCHECK, loggedInUser });
-    console.log("TOP画面のdispatch後のstate", state.auth.isLoggedIn);
-
-};
-useEffect(() => {
-    isLoggedIn();
-}, []);
+    const isLoggedIn = async () => {
+        await axios.get("/sanctum/csrf-cookie");
+        const response = await axios.get("/api/auth");
+        console.log("TOP画面のdispatch前");
+        const loggedInUser = response.data.user;
+        dispatch({ type: AUTHCHECK, loggedInUser });
+        console.log("TOP画面のdispatch後のstate", state.auth.isLoggedIn);
+    };
+    useEffect(() => {
+        isLoggedIn();
+    }, []);
     const logout = () => {
         axios.get("/sanctum/csrf-cookie").then(() => {
             axios
@@ -57,23 +55,22 @@ useEffect(() => {
                     // eslint-disable-next-line react/prop-types
                     props.history.push("/");
                 })
-                .catch((error:any) => {
+                .catch((error: any) => {
                     console.log("error!");
                     console.log(error);
                 });
         });
     };
+
     return state.auth.isLoggedIn !== null ? (
         <Layout>
             <div css={title}>TOP</div>
             <div css={text}>{state.auth.isLoggedIn ? `ログインしています` : `ログインしていません`}</div>
-            <button onClick={logout} css={btn}>
+            <button onClick={logout} css={btn} type="button">
                 ログアウト
             </button>
         </Layout>
-    ) : (
-            null
-        );
+    ) : null;
 };
 
 export default Top;
