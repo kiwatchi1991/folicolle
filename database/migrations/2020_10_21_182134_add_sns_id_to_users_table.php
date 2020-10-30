@@ -15,7 +15,11 @@ class AddSnsIdToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('twitter_id')->nullable()->after('github_url');
+        });
+        Schema::table('users', function (Blueprint $table) {
             $table->string('google_id')->nullable()->after('twitter_id');
+        });
+        Schema::table('users', function (Blueprint $table) {
             $table->string('github_id')->nullable()->after('google_id');
         });
     }
@@ -29,7 +33,11 @@ class AddSnsIdToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('twitter_id');
+        });
+        Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('google_id');
+        });
+        Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('github_id');
         });
     }

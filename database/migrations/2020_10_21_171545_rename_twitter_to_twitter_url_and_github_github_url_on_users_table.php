@@ -15,6 +15,8 @@ class RenameTwitterToTwitterUrlAndGithubGithubUrlOnUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->renameColumn('twitter', 'twitter_url');
+        });
+        Schema::table('users', function (Blueprint $table) {
             $table->renameColumn('github', 'github_url');
         });
     }
@@ -28,6 +30,8 @@ class RenameTwitterToTwitterUrlAndGithubGithubUrlOnUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->renameColumn('twitter_url', 'twitter');
+        });
+        Schema::table('users', function (Blueprint $table) {
             $table->renameColumn('github_url', 'github');
         });
     }
