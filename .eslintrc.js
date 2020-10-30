@@ -39,7 +39,7 @@ module.exports = {
   root: true,
   rules: {
     "newline-before-return": "error",
-    "no-console": "warn",
+    "no-console": "off",
     "no-continue": "off",
     "require-yield": "error",
     "spaced-comment": [
