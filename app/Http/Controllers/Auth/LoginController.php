@@ -11,6 +11,9 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Socialite;
+use Illuminate\Http\Exceptions\HttpResponseException;
+
+use App\Http\Requests\LoginRequest;
 
 class LoginController extends Controller
 {
@@ -44,20 +47,22 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
+        Log::debug('LoginController.login');
 
+        $credentials = $request->all();
+        // Log::debug($credentials);
         if (Auth::attempt($credentials)) {
             return response()->json(Auth::user());
         }
 
-        throw ValidationException::withMessages([
-            'email' => ['The provided credentials are incorrect'],
-        ]);
+        $response['status']  = 422;
+        $response['statusText'] = 'Failed validation.';
+        $response['errors'] = ['email' => 'メールアドレスまたはパスワードが間違っています。'];
+        throw new HttpResponseException(
+            response()->json($response, 200)
+        );
     }
 
     public function logout(Request $request)

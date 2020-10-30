@@ -1,31 +1,32 @@
 import axios from "axios";
 import React, { useState, useContext } from "react";
-import Layout from "../../components/Layout/Layout";
-import { Redirect } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
+
+import { css, jsx } from "@emotion/core";
 import { REGISTER } from "../../actions";
 
 /** @jsx jsx */
-import { css, jsx } from "@emotion/core";
+import Layout from "../../components/Layout/Layout";
 import Style from "../../Style";
 import AppContext from "../../contexts/AppContexts";
+
 jsx;
 type defaultPropsType = {
     value: {
-        name: string
-        email: string
-        password: string,
-        password_confirmation: string,
-    },
+        name: string;
+        email: string;
+        password: string;
+        password_confirmation: string;
+    };
     message: {
-        name: string
-        email: string
-        password: string,
-    },
-    history: any,
+        name: string;
+        email: string;
+        password: string;
+    };
+    history: any;
 };
-const Register = (props:defaultPropsType) => {
-    //style
+const Register = (props: defaultPropsType) => {
+    // style
     const body = css`
         background: ${Style.color.bg};
         height: 100%;
@@ -78,7 +79,7 @@ const Register = (props:defaultPropsType) => {
         border: none;
         border-radius: 5px;
         height: 50px;
-        &:disabled{
+        &:disabled {
             opacity: 0.4;
         }
     `;
@@ -175,15 +176,30 @@ const Register = (props:defaultPropsType) => {
                     password_confirmation: localState.value.password_confirmation,
                 })
                 .then((response) => {
+                    console.log("response", response);
+                    if (response.data.status === 422) {
+                        console.log("status===422");
+                        console.log(response.data.errors.email);
+                        setState({
+                            ...localState,
+                            message: {
+                                name: response.data.errors.name,
+                                email: response.data.errors.email,
+                                password: response.data.errors.password,
+                            },
+                        });
+
+                        return;
+                    }
                     dispatch({ type: REGISTER });
                     props.history.push("/");
                 })
                 .catch((error) => {
-                           console.log("error!");
+                    console.log("error!");
                 });
         });
     };
-    const toOAuthLoginPage = (provider:string) => {
+    const toOAuthLoginPage = (provider: string) => {
         window.location.href = `/login/${provider}`;
     };
     const oAuthTwitter = () => {
@@ -196,15 +212,16 @@ const Register = (props:defaultPropsType) => {
         toOAuthLoginPage("google");
     };
 
-    const validName = (name:string) => {
+    const validName = (name: string) => {
         console.log("validName!");
         console.log(name);
         if (!name) {
             return "ユーザー名を入力してください";
         }
+
         return "";
     };
-    const validEmail = (email:string) => {
+    const validEmail = (email: string) => {
         console.log("validEmail!");
         console.log(email);
         if (!email) {
@@ -216,17 +233,17 @@ const Register = (props:defaultPropsType) => {
 
         return "";
     };
-    const validPassword = (password:string) => {
+    const validPassword = (password: string) => {
         if (!password) return "パスワードを入力してください";
         if (password.length < 8) return "パスワードは8文字以上で入力してください";
 
         return "";
     };
 
-    const handleChange = (e:any) => {
+    const handleChange = (e: any) => {
         console.log("e");
         console.log(e.target.name);
-        const eventType:("name" | "email" | "password" | "password_confirmation") = e.target.name;
+        const eventType: "name" | "email" | "password" | "password_confirmation" = e.target.name;
         if (eventType === "name") {
             const nameMessage = validName(e.target.value);
             setState({
@@ -234,7 +251,7 @@ const Register = (props:defaultPropsType) => {
                 value: { ...localState.value, name: e.target.value },
                 message: { ...localState.message, name: nameMessage },
             });
-        } else if(eventType === "email") {
+        } else if (eventType === "email") {
             const emailMessage = validEmail(e.target.value);
             setState({
                 ...localState,
@@ -253,10 +270,11 @@ const Register = (props:defaultPropsType) => {
                 ...localState,
                 value: { ...localState.value, password_confirmation: e.target.value },
             });
-        };
+        }
     };
+
     return state.auth.isLoggedIn ? (
-        <Redirect to={"/"} />
+        <Redirect to="/" />
     ) : (
         <Layout>
             <div css={body}>
@@ -277,8 +295,8 @@ const Register = (props:defaultPropsType) => {
                                     placeholder="ユーザー名"
                                     required
                                     autoComplete="name"
-                                    />
-                                    {localState.message.name && <span css={error}>{localState.message.name}</span>}
+                                />
+                                {localState.message.name && <span css={error}>{localState.message.name}</span>}
                             </li>
                             <li css={inputWrap}>
                                 <input
@@ -295,7 +313,7 @@ const Register = (props:defaultPropsType) => {
                                     autoComplete="email"
                                 />
                                 {localState.message.email && <span css={error}>{localState.message.email}</span>}
-                                <span className="invalid-feedback" role="alert"></span>
+                                <span className="invalid-feedback" role="alert" />
                             </li>
 
                             <li css={inputWrap}>
@@ -312,7 +330,7 @@ const Register = (props:defaultPropsType) => {
                                     required
                                     autoComplete="new-password"
                                 />
-                            {localState.message.password && <span css={error}>{localState.message.password}</span>}
+                                {localState.message.password && <span css={error}>{localState.message.password}</span>}
                             </li>
                             <li css={inputWrap}>
                                 <input
@@ -330,7 +348,12 @@ const Register = (props:defaultPropsType) => {
                                 />
                             </li>
                             <li css={buttonWrap}>
-                                <button type="button" css={button} onClick={register} disabled={!(!localState.message.email && !localState.message.password) }>
+                                <button
+                                    type="button"
+                                    css={button}
+                                    onClick={register}
+                                    disabled={!(!localState.message.email && !localState.message.password)}
+                                >
                                     新規登録
                                 </button>
                             </li>
@@ -378,7 +401,7 @@ Register.defaultProps = {
         name: "",
         email: "",
         password: "",
-    }
+    },
 };
 
 export default Register;

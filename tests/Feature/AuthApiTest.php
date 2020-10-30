@@ -24,12 +24,13 @@ class AuthApiTest extends TestCase
      */
     public function should_ログインユーザーを返す()
     {
-        $response = $this->actingAs($this->user)
-            ->json('GET', route('auth'));
+        $this->actingAs($this->user);
+
+        $response = $this->json('GET', route('auth'));
 
         $response
             ->assertStatus(200)
-            ->assertJson(['name' => $this->user->name]);
+            ->assertJson(["user" => ["name" => $this->user->name]]);
 
         $this->assertAuthenticatedAs($this->user);
     }

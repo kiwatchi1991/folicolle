@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
+use App\Http\Requests\RegisterRequest;
+
 class RegisterController extends Controller
 {
     /*
@@ -61,13 +63,9 @@ class RegisterController extends Controller
         ]);
     }
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $credentials = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
+        Log::debug('RegisterController.login');
 
         $user = User::create([
             'name' => $request['name'],
@@ -78,6 +76,7 @@ class RegisterController extends Controller
 
         Auth::login($user);
 
+        Log::debug('return前');
         return response()->json(Auth::user());
 
         return $request->wantsJson()

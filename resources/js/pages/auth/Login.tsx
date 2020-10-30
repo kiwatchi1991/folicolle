@@ -174,6 +174,19 @@ const Login = (props: defaultPropsType) => {
                 })
                 .then((response) => {
                     console.log("response", response);
+                    if (response.data.status === 422) {
+                        console.log("status===422");
+                        console.log(response.data.errors.email);
+                        setState({
+                            ...localState,
+                            message: {
+                                email: response.data.errors.email,
+                                password: response.data.errors.password,
+                            },
+                        });
+
+                        return;
+                    }
                     dispatch({ type: LOGIN });
                     console.log("dispatchあとのstate", state);
                     props.history.push("/");
