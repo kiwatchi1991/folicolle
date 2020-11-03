@@ -1,8 +1,7 @@
 <?php
 
-namespace Tests\Requests;
+namespace Tests\Unit\Requests;
 
-use App\User;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\RegisterRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -14,23 +13,16 @@ class RegisterRequestTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        // テストユーザー作成
-        $this->user = factory(User::class)->create();
-    }
-
     /**
      * カスタムリクエストのバリデーションテスト
      *
      * @param array 項目名の配列
      * @param array 値の配列
      * @param boolean 期待値(true:バリデーションOK、false:バリデーションNG)
-     * @dataProvider dataproviderExample
+     *
+     * @dataProvider dataUserRegistration
      */
-    public function testExample(array $keys, array $values, bool $expect)
+    public function testUserRegistration(array $keys, array $values, bool $expect)
     {
         // Log::debug($this->user);
         //入力項目の配列（$keys）と値の配列($values)
@@ -50,32 +42,32 @@ class RegisterRequestTest extends TestCase
         $this->assertEquals($expect, $result);
     }
 
-    public function dataproviderExample()
+    public function dataUserRegistration()
     {
         return [
             'OK' => [
                 ['name', 'email', 'password', 'password_confirmation'],
-                ['testuser', 'aaa@gmail.com', 'password', 'password'],
+                ['testuser', 'test@example.com', 'password', 'password'],
                 true
             ],
             '名前必須エラー' => [
                 ['name', 'email', 'password', 'password_confirmation'],
-                [null, 'aaa@gmail.com', 'password', 'password'],
+                [null, 'test@example.com', 'password', 'password'],
                 false
             ],
             '名前形式エラー' => [
                 ['name', 'email', 'password', 'password_confirmation'],
-                [1, 'aaa@gmail.com', 'password', 'password'],
+                [1, 'test@example.com', 'password', 'password'],
                 false
             ],
             '名前最大文字数エラー' => [
                 ['name', 'email', 'password', 'password_confirmation'],
-                [str_repeat('a', 256), 'aaa@gmail.com', 'password', 'password'],
+                [str_repeat('a', 256), 'test@example.com', 'password', 'password'],
                 false
             ],
             'OK' => [
                 ['name', 'email', 'password', 'password_confirmation'],
-                [str_repeat('a', 255), 'aaa@gmail.com', 'password', 'password'],
+                [str_repeat('a', 255), 'test@example.com', 'password', 'password'],
                 true
             ],
             'email必須エラー' => [
@@ -85,12 +77,12 @@ class RegisterRequestTest extends TestCase
             ],
             'email形式エラー' => [
                 ['name', 'email', 'password', 'password_confirmation'],
-                ['testuser', 'aaa@gmail.', 'password', 'password'],
+                ['testuser', 'test@example.', 'password', 'password'],
                 false
             ],
             'email最大文字数エラー' => [
                 ['name', 'email', 'password', 'password_confirmation'],
-                ['testuser', str_repeat('a', 255) . '@gmail.com', 'password', 'password'],
+                ['testuser', str_repeat('a', 255) . '@example.com', 'password', 'password'],
                 false
             ],
             'emailユニークエラー' => [
@@ -100,17 +92,17 @@ class RegisterRequestTest extends TestCase
             ],
             'passwordユニークエラー' => [
                 ['name', 'email', 'password', 'password_confirmation'],
-                ['testuser', 'aaa@gmail.com', '', ''],
+                ['testuser', 'test@example.com', '', ''],
                 false
             ],
             'passwordユニークエラー' => [
                 ['name', 'email', 'password', 'password_confirmation'],
-                ['testuser', 'aaa@gmail.com', 'pass', 'pass'],
+                ['testuser', 'test@example.com', 'pass', 'pass'],
                 false
             ],
             'passwordユニークエラー' => [
                 ['name', 'email', 'password', 'password_confirmation'],
-                ['testuser', 'aaa@gmail.com', 'password', 'password1'],
+                ['testuser', 'test@example.com', 'password', 'password1'],
                 false
             ],
         ];

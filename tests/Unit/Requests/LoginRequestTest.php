@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Requests;
+namespace Tests\Unit\Requests;
 
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\LoginRequest;
