@@ -3,14 +3,16 @@ module.exports = {
     browser: true,
     es6: true,
     node: true,
+        jest: true,
+    mocha: true
     },
   extends: [
     "airbnb",
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
-      "plugin:react/recommended",
-      "plugin:prettier/recommended",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:import/typescript",
@@ -37,7 +39,9 @@ module.exports = {
     "react",
     ],
   root: true,
-  rules: {
+    rules: {
+    "react/jsx-filename-extension": [1, { "allow": "as-needed" }],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "newline-before-return": "error",
     "no-console": "off",
     "no-continue": "off",

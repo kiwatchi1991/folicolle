@@ -39,7 +39,6 @@ mix.ts("resources/js/app.tsx", "public/js")
         // ここから
         https: false, // httpsのサイトをproxyするならtrueをセット
         files: [
-            // チェックするファイルは下記で十分ではないかな。
             "./resources/**/*",
             "./app/**/*",
             "./config/**/*",
