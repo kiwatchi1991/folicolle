@@ -24,7 +24,6 @@ class RegisterRequestTest extends TestCase
      */
     public function testUserRegistration(array $keys, array $values, bool $expect)
     {
-        // Log::debug($this->user);
         //入力項目の配列（$keys）と値の配列($values)
         $dataList = array_combine($keys, $values);
         Log::debug('dataList');

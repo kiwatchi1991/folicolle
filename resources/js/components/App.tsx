@@ -1,5 +1,6 @@
 import React, { useReducer, useEffect, useContext } from "react";
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import { jsx, css } from "@emotion/core";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import Top from "../pages/Top";
@@ -9,17 +10,17 @@ import Guest from "./Guest";
 import AppContext from "../contexts/AppContexts";
 import reducer from "../reducers";
 /** @jsx jsx */
-import { jsx, css } from "@emotion/core";
 jsx;
 function App() {
     const initialState: {
-        auth: { isLoggedIn: boolean | null}
+        auth: { isLoggedIn: boolean | null };
     } = {
         auth: { isLoggedIn: null },
     };
     const [state, dispatch] = useReducer<any>(reducer, initialState);
+
     return (
-        <AppContext.Provider value= {{ state, dispatch }}>
+        <AppContext.Provider value={{ state, dispatch }}>
             <Router>
                 <Switch>
                     <Route exact path="/" component={Top} />
