@@ -2,15 +2,12 @@ import axios from "axios";
 import React, { useState, useContext } from "react";
 import { Redirect, Link } from "react-router-dom";
 
-import { css, jsx } from "@emotion/core";
 import { REGISTER } from "../../actions";
-
-/** @jsx jsx */
 import Layout from "../../components/Layout/Layout";
-import Style from "../../Style";
 import AppContext from "../../contexts/AppContexts";
 
-jsx;
+const styles = require("./Register.modules.scss");
+
 type defaultPropsType = {
     value: {
         name: string;
@@ -26,143 +23,6 @@ type defaultPropsType = {
     history: any;
 };
 const Register = (props: defaultPropsType) => {
-    // style
-    const body = css`
-        background: ${Style.color.bg};
-        height: 100%;
-        padding-top: 80px;
-    `;
-
-    const wrapper = css`
-        background: #fff;
-        border-radius: 5px;
-        margin-top: 32px;
-        width: 300px;
-        display: flex;
-        margin: 0 auto;
-        padding: 24px;
-        text-align: center;
-    `;
-    const inner = css`
-        width: 100%;
-    `;
-    const title = css`
-        color: ${Style.color.main};
-        font-size: 2rem;
-        margin: 8px 0;
-    `;
-    const formWrap = css`
-        margin-top: 18px;
-    `;
-    const inputWrap = css`
-        margin-top: 12px;
-        text-align: left;
-    `;
-    const input = css`
-        border: 1px solid ${Style.color.main};
-        border-radius: 5px;
-        padding: 16px;
-        width: 100%;
-        height: 100%;
-        display: inline-block;
-        box-sizing: border-box;
-        background: none;
-        &::placeholder {
-            color: ${Style.color.main};
-        }
-    `;
-    const button = css`
-        width: 100%;
-        padding: 16px;
-        background: ${Style.color.main};
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        height: 50px;
-        &:disabled {
-            opacity: 0.4;
-        }
-    `;
-    const buttonWrap = css`
-        margin-top: 12px;
-    `;
-    const forget = css`
-        margin-top: 24px;
-        color: ${Style.color.main};
-        font-size: 1.4rem;
-    `;
-    const forgetLink = css`
-        margin-left: 4px;
-        color: ${Style.color.accent};
-        :visited {
-            color: ${Style.color.accent};
-        }
-    `;
-    const or = css`
-        position: relative;
-        font-size: 1.4rem;
-        margin: 24px auto;
-        color: ${Style.color.main};
-        &:before {
-            left: 0;
-        }
-        &:after {
-            right: 0;
-        }
-        &:before,
-        &:after {
-            content: "";
-            display: block;
-            width: 88px;
-            height: 1px;
-            position: absolute;
-            top: 50%;
-            background-color: ${Style.color.main};
-        }
-    `;
-    const sns = css`
-        display: flex;
-        justify-content: space-between;
-    `;
-    const snsBtn = css`
-        background: #333;
-        width: 75px;
-        border-radius: 3px;
-        height: 45px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    `;
-    const github = css`
-        background: #171515;
-    `;
-    const google = css`
-        background: #dd5144;
-    `;
-    const twitter = css`
-        background: #1da1f2;
-    `;
-    const error = css`
-        color: red;
-        margin-top: 4px;
-        font-size: 14px;
-        display: block;
-    `;
-    const a = css`
-        //
-    `;
-    const toLogin = css`
-        margin-top: 32px;
-        color: ${Style.color.main};
-        font-size: 1.2rem;
-    `;
-    const toLoginLink = css`
-        margin-left: 4px;
-        color: ${Style.color.accent};
-        &:visited {
-            color: ${Style.color.accent};
-        }
-    `;
     const { state, dispatch } = useContext(AppContext);
     const [localState, setState] = useState(props);
 
@@ -277,16 +137,16 @@ const Register = (props: defaultPropsType) => {
         <Redirect to="/" />
     ) : (
         <Layout>
-            <div css={body}>
-                <div css={wrapper}>
-                    <div css={inner}>
-                        <div css={title}>新規登録</div>
-                        <ul css={formWrap}>
-                            <li css={inputWrap}>
+            <div className={styles.body}>
+                <div className={styles.wrapper}>
+                    <div className={styles.inner}>
+                        <div className={styles.title}>新規登録</div>
+                        <ul className={styles.formWrap}>
+                            <li className={styles.inputWrap}>
                                 <input
                                     id="name"
                                     type="text"
-                                    css={input}
+                                    className={styles.input}
                                     name="name"
                                     value={localState.value.name}
                                     onChange={(e) => {
@@ -296,13 +156,15 @@ const Register = (props: defaultPropsType) => {
                                     required
                                     autoComplete="name"
                                 />
-                                {localState.message.name && <span css={error}>{localState.message.name}</span>}
+                                {localState.message.name && (
+                                    <span className={styles.error}>{localState.message.name}</span>
+                                )}
                             </li>
-                            <li css={inputWrap}>
+                            <li className={styles.inputWrap}>
                                 <input
                                     id="email"
                                     type="email"
-                                    css={input}
+                                    className={styles.input}
                                     name="email"
                                     value={localState.value.email}
                                     onChange={(e) => {
@@ -312,15 +174,17 @@ const Register = (props: defaultPropsType) => {
                                     required
                                     autoComplete="email"
                                 />
-                                {localState.message.email && <span css={error}>{localState.message.email}</span>}
+                                {localState.message.email && (
+                                    <span className={styles.error}>{localState.message.email}</span>
+                                )}
                                 <span className="invalid-feedback" role="alert" />
                             </li>
 
-                            <li css={inputWrap}>
+                            <li className={styles.inputWrap}>
                                 <input
                                     id="password"
                                     type="password"
-                                    css={input}
+                                    className={styles.input}
                                     name="password"
                                     value={localState.value.password}
                                     onChange={(e) => {
@@ -330,13 +194,15 @@ const Register = (props: defaultPropsType) => {
                                     required
                                     autoComplete="new-password"
                                 />
-                                {localState.message.password && <span css={error}>{localState.message.password}</span>}
+                                {localState.message.password && (
+                                    <span className={styles.error}>{localState.message.password}</span>
+                                )}
                             </li>
-                            <li css={inputWrap}>
+                            <li className={styles.inputWrap}>
                                 <input
                                     id="password-confirm"
                                     type="password"
-                                    css={input}
+                                    className={styles.input}
                                     name="password_confirmation"
                                     value={localState.value.password_confirmation}
                                     onChange={(e) => {
@@ -347,39 +213,51 @@ const Register = (props: defaultPropsType) => {
                                     autoComplete="new-password"
                                 />
                             </li>
-                            <li css={buttonWrap}>
+                            <li className={styles.buttonWrap}>
                                 <button
                                     type="button"
-                                    css={button}
+                                    className={styles.button}
                                     onClick={register}
                                     disabled={!(!localState.message.email && !localState.message.password)}
                                 >
                                     新規登録
                                 </button>
                             </li>
-                            <li css={or}>または</li>
+                            <li className={styles.or}>または</li>
                             <li>
-                                <ul css={sns}>
+                                <ul className={styles.sns}>
                                     <li>
-                                        <button css={[snsBtn, github]}>
+                                        <button
+                                            className={`${styles.snsBtn} ${styles.github}`}
+                                            onClick={oAuthGithub}
+                                            type="button"
+                                        >
                                             <img src="/images/github.svg" alt="githubのアイコン" />
                                         </button>
                                     </li>
                                     <li>
-                                        <button css={[snsBtn, google]}>
+                                        <button
+                                            className={`${styles.snsBtn} ${styles.google}`}
+                                            onClick={oAuthGoogle}
+                                            type="button"
+                                        >
                                             <img src="/images/google.svg" alt="googleのアイコン" />
                                         </button>
                                     </li>
                                     <li>
-                                        <button css={[snsBtn, twitter]}>
+                                        <button
+                                            className={`${styles.snsBtn} ${styles.twitter}`}
+                                            onClick={oAuthTwitter}
+                                            type="button"
+                                        >
                                             <img src="/images/twitter.svg" alt="twitterのアイコン" />
                                         </button>
                                     </li>
                                 </ul>
                             </li>
-                            <li css={toLogin}>
+                            <li className={styles.toLogin}>
                                 アカウントをお持ちでないですか？
-                                <Link to={{ pathname: "Login" }} css={toLoginLink}>
+                                <Link to={{ pathname: "Login" }} className={styles.toLoginLink}>
                                     ログイン
                                 </Link>
                             </li>

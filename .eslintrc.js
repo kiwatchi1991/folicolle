@@ -22,7 +22,8 @@ module.exports = {
   globals: {
     Atomics: "readonly",
     SharedArrayBuffer: "readonly",
-    "__DEV__": true
+      "__DEV__": true,
+    "React": false
     },
   parser: "@typescript-eslint/parser",
   parserOptions: {
@@ -54,9 +55,13 @@ module.exports = {
                 ],
             },
         ],
+    "no-use-before-define": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["off"],
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-member-accessibility": "off",
     "@typescript-eslint/no-unnecessary-type-assertion": "error",
+    "@typescript-eslint/no-var-requires": "off",
     "react/jsx-filename-extension": [
       "error",
             {
@@ -74,6 +79,8 @@ module.exports = {
     "react/require-default-props": ["off", { forbidDefaultForRequired: false, ignoreFunctionalComponents: false }],
     "react/no-unused-prop-types": ["off", {}],
     "react/default-props-match-prop-types": ["off", { "allowRequiredDefaults": false }],
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
     "import/extensions": [
       "error",
       "always",

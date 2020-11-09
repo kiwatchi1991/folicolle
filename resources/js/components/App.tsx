@@ -1,6 +1,5 @@
-import React, { useReducer, useEffect, useContext } from "react";
+import React, { useReducer } from "react";
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
-import { jsx, css } from "@emotion/core";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import Top from "../pages/Top";
@@ -9,9 +8,8 @@ import Auth from "./Auth";
 import Guest from "./Guest";
 import AppContext from "../contexts/AppContexts";
 import reducer from "../reducers";
-/** @jsx jsx */
-jsx;
-function App() {
+
+const App = () => {
     const initialState: {
         auth: { isLoggedIn: boolean | null };
     } = {
@@ -35,6 +33,6 @@ function App() {
             </Router>
         </AppContext.Provider>
     );
-}
+};
 
 export default App;

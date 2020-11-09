@@ -1,9 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import { jsx } from "@emotion/core";
 import Render from "./Render";
-/** @jsx jsx */
-jsx;
 
 describe("Rendering", () => {
     it("should render all the elements correctly", () => {

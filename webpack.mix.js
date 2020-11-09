@@ -1,4 +1,5 @@
 const mix = require("laravel-mix");
+require("laravel-mix-react-css-modules");
 
 mix.webpackConfig({
     module: {
@@ -34,20 +35,15 @@ mix.webpackConfig({
 
 mix.ts("resources/js/app.tsx", "public/js")
     .sass("resources/sass/app.scss", "public/css")
+    .reactCSSModules("[name]___[hash:base64]")
     .sourceMaps()
     .browserSync({
         // ここから
         https: false, // httpsのサイトをproxyするならtrueをセット
-        files: [
-            "./resources/**/*",
-            "./app/**/*",
-            "./config/**/*",
-            "./routes/**/*",
-            "./public/**/*",
-        ],
+        files: ["./resources/**/*", "./app/**/*", "./config/**/*", "./routes/**/*", "./public/**/*"],
         proxy: {
             target: "http://127.0.0.1:8000", // 最後に/は不要
         },
-        open: true, //BrowserSync起動時にブラウザを開かない
-        reloadOnRestart: true, //BrowserSync起動時にブラウザにリロード命令おくる
+        open: true, // BrowserSync起動時にブラウザを開かない
+        reloadOnRestart: true, // BrowserSync起動時にブラウザにリロード命令おくる
     });

@@ -1,14 +1,11 @@
 import axios from "axios";
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { jsx, css } from "@emotion/core";
 import Layout from "../../components/Layout/Layout";
-/** @jsx jsx */
-import Style from "../../Style";
 import { LOGIN } from "../../actions";
 import AppContext from "../../contexts/AppContexts";
 
-jsx;
+const styles = require("./Login.modules.scss");
 
 type defaultPropsType = {
     value: {
@@ -23,143 +20,6 @@ type defaultPropsType = {
 };
 
 const Login = (props: defaultPropsType) => {
-    // style
-    const body = css`
-        background: ${Style.color.bg};
-        height: 100%;
-        padding-top: 80px;
-    `;
-
-    const wrapper = css`
-        background: #fff;
-        border-radius: 5px;
-        margin-top: 32px;
-        width: 300px;
-        display: flex;
-        margin: 0 auto;
-        padding: 24px;
-        text-align: center;
-    `;
-    const inner = css`
-        width: 100%;
-    `;
-    const title = css`
-        color: ${Style.color.main};
-        font-size: 2rem;
-        margin: 8px 0;
-    `;
-    const formWrap = css`
-        margin-top: 18px;
-    `;
-    const inputWrap = css`
-        margin-top: 12px;
-        text-align: left;
-    `;
-    const input = css`
-        border: 1px solid ${Style.color.main};
-        border-radius: 5px;
-        padding: 16px;
-        width: 100%;
-        height: 100%;
-        display: inline-block;
-        box-sizing: border-box;
-        background: none;
-        &::placeholder {
-            color: ${Style.color.main};
-        }
-    `;
-    const button = css`
-        width: 100%;
-        padding: 16px;
-        background: ${Style.color.main};
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        height: 50px;
-        &:disabled {
-            opacity: 0.4;
-        }
-    `;
-    const buttonWrap = css`
-        margin-top: 12px;
-    `;
-    const forget = css`
-        margin-top: 24px;
-        color: ${Style.color.main};
-        font-size: 1.4rem;
-    `;
-    const forgetLink = css`
-        margin-left: 4px;
-        color: ${Style.color.accent};
-        :visited {
-            color: ${Style.color.accent};
-        }
-    `;
-    const or = css`
-        position: relative;
-        font-size: 1.4rem;
-        margin: 24px auto;
-        color: ${Style.color.main};
-        &:before {
-            left: 0;
-        }
-        &:after {
-            right: 0;
-        }
-        &:before,
-        &:after {
-            content: "";
-            display: block;
-            width: 88px;
-            height: 1px;
-            position: absolute;
-            top: 50%;
-            background-color: ${Style.color.main};
-        }
-    `;
-    const sns = css`
-        display: flex;
-        justify-content: space-between;
-    `;
-    const snsBtn = css`
-        background: #333;
-        width: 75px;
-        border-radius: 3px;
-        height: 45px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    `;
-    const github = css`
-        background: #171515;
-    `;
-    const google = css`
-        background: #dd5144;
-    `;
-    const twitter = css`
-        background: #1da1f2;
-    `;
-    const error = css`
-        color: red;
-        margin-top: 4px;
-        font-size: 14px;
-        display: block;
-    `;
-    const a = css`
-        //
-    `;
-    const toRegister = css`
-        margin-top: 32px;
-        color: ${Style.color.main};
-        font-size: 1.2rem;
-    `;
-    const toRegisterLink = css`
-        margin-left: 4px;
-        color: ${Style.color.accent};
-        &:visited {
-            color: ${Style.color.accent};
-        }
-    `;
     const { state, dispatch } = useContext(AppContext);
     console.log("ログイン画面読み込み時のstate", state);
 
@@ -251,17 +111,17 @@ const Login = (props: defaultPropsType) => {
     // バリデーション
     return (
         <Layout>
-            <div css={body}>
-                <div css={wrapper}>
-                    <div css={inner}>
-                        <div css={title}>ログイン</div>
+            <div className={styles.body}>
+                <div className={styles.wrapper}>
+                    <div className={styles.inner}>
+                        <div className={styles.title}>ログイン</div>
                         <form>
-                            <ul css={formWrap}>
-                                <li css={inputWrap}>
+                            <ul className={styles.formWrap}>
+                                <li className={styles.inputWrap}>
                                     <input
                                         id="email"
                                         type="email"
-                                        css={input}
+                                        className={styles.input}
                                         name="email"
                                         value={localState.value.email}
                                         placeholder="メールアドレス"
@@ -269,14 +129,16 @@ const Login = (props: defaultPropsType) => {
                                             handleChange(e);
                                         }}
                                     />
-                                    {localState.message.email && <span css={error}>{localState.message.email}</span>}
+                                    {localState.message.email && (
+                                        <span className={styles.error}>{localState.message.email}</span>
+                                    )}
                                 </li>
-                                <li css={inputWrap}>
+                                <li className={styles.inputWrap}>
                                     <input
                                         id="password"
                                         type="password"
                                         name="password"
-                                        css={input}
+                                        className={styles.input}
                                         value={localState.value.password}
                                         placeholder="パスワード"
                                         onChange={(e) => {
@@ -284,48 +146,60 @@ const Login = (props: defaultPropsType) => {
                                         }}
                                     />
                                     {localState.message.password && (
-                                        <span css={error}>{localState.message.password}</span>
+                                        <span className={styles.error}>{localState.message.password}</span>
                                     )}
                                 </li>
-                                <li css={buttonWrap}>
+                                <li className={styles.buttonWrap}>
                                     <button
                                         type="button"
-                                        css={button}
+                                        className={styles.button}
                                         onClick={login}
                                         disabled={!(!localState.message.email && !localState.message.password)}
                                     >
                                         ログイン
                                     </button>
                                 </li>
-                                <li css={forget}>
+                                <li className={styles.forget}>
                                     パスワードを忘れた方は
-                                    {/* <Link css={forgetLink} href="/password/request">
+                                    {/* <Link className={styles.forgetLink} href="/password/request">
                                     こちら
                                 </Link> */}
                                 </li>
-                                <li css={or}>または</li>
+                                <li className={styles.or}>または</li>
                                 <li>
-                                    <ul css={sns}>
+                                    <ul className={styles.sns}>
                                         <li>
-                                            <button css={[snsBtn, github]} onClick={oAuthGithub} type="button">
+                                            <button
+                                                className={`${styles.snsBtn} ${styles.github}`}
+                                                onClick={oAuthGithub}
+                                                type="button"
+                                            >
                                                 <img src="/images/github.svg" alt="githubのアイコン" />
                                             </button>
                                         </li>
                                         <li>
-                                            <button css={[snsBtn, google]} onClick={oAuthGoogle} type="button">
+                                            <button
+                                                className={`${styles.snsBtn} ${styles.google}`}
+                                                onClick={oAuthGoogle}
+                                                type="button"
+                                            >
                                                 <img src="/images/google.svg" alt="googleのアイコン" />
                                             </button>
                                         </li>
                                         <li>
-                                            <button css={[snsBtn, twitter]} onClick={oAuthTwitter} type="button">
+                                            <button
+                                                className={`${styles.snsBtn} ${styles.twitter}`}
+                                                onClick={oAuthTwitter}
+                                                type="button"
+                                            >
                                                 <img src="/images/twitter.svg" alt="twitterのアイコン" />
                                             </button>
                                         </li>
                                     </ul>
                                 </li>
-                                <li css={toRegister}>
+                                <li className={styles.toRegister}>
                                     アカウントをお持ちでないですか？
-                                    <Link to={{ pathname: "Register" }} css={toRegisterLink}>
+                                    <Link to={{ pathname: "Register" }} className={styles.toRegisterLink}>
                                         新規登録
                                     </Link>
                                 </li>

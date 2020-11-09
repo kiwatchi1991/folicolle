@@ -1,11 +1,10 @@
 import React, { useContext, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
-import { jsx } from "@emotion/core";
 import AppContext from "../contexts/AppContexts";
 import { AUTHCHECK } from "../actions";
 
-jsx;
+
 
 type AuthProps = {
     children: any;
