@@ -53,6 +53,6 @@ https://folicolle.jp/
 
 （制作過程をQiitaで発信しています。）
 
-- [【第0回】「みんなのポートフォリオまとめサイト」を作ります~宣言編~](https://qiita.com/kiwatchi1991/items/58b53c5b4ddf8d6a7053)
-- [【第1回】「みんなのポートフォリオまとめサイト」を作ります~着手編~](https://qiita.com/kiwatchi1991/items/62ecde8289887965aff3)
-- [【第2回】「みんなのポートフォリオまとめサイト」を作ります~SPA認証で死闘編~](https://qiita.com/kiwatchi1991/items/2fdd533236cd32237bb2)
+- [【第0回】「みんなのポートフォリオまとめサイト」を作ります\~宣言編\~](https://qiita.com/kiwatchi1991/items/58b53c5b4ddf8d6a7053)
+- [【第1回】「みんなのポートフォリオまとめサイト」を作ります\~着手編\~](https://qiita.com/kiwatchi1991/items/62ecde8289887965aff3)
+- [【第2回】「みんなのポートフォリオまとめサイト」を作ります\~SPA認証で死闘編\~](https://qiita.com/kiwatchi1991/items/2fdd533236cd32237bb2)
