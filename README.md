@@ -4,9 +4,27 @@
 
 https://folicolle.jp/
 
+(絶賛開発中です！)
+
+
 ## 概要
 
 「みんなのポートフォリオを見たい人」と「みんなにポートフォリオを見てもらいたい人」をつなぐプラットフォームサイトです。
+
+## 機能一覧
+
+- ユーザー登録（Twitter, Google, Githubのソーシャルログイン）
+- ログイン（Twitter, Google, Githubのソーシャルログイン）
+- ログアウト
+- ポートフォリオ登録
+- ポートフォリオ編集
+- ポートフォリオ削除
+- ポートフォリオ一覧表示
+- ポートフォリオ検索
+- フォロー
+- いいね
+- ページング
+
 
 ## 開発背景
 
@@ -25,6 +43,10 @@ https://folicolle.jp/
 - TypeScript
 ### バックエンド
 - Laravel
+### DB
+- MySQL
 ### その他
-- テスト（Jest, ract-testing-library, redux-toolkit）
+- テスト
+  - フロントエンド（Jest, ract-testing-library, redux-toolkit）
+  - バックエンド（Laravel内蔵のテストFW）
 - 自動デプロイ（GithubActions）
