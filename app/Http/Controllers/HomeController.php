@@ -24,7 +24,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        Log::debug('Homecontroller.index');
         return view('index');
     }
 }

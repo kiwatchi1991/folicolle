@@ -12,6 +12,6 @@ class Product extends Model
      */
     use SoftDeletes;
 
-    protected $table = 'users';
+    protected $table = 'products';
     protected $dates = ['deleted_at'];
 }

@@ -65,8 +65,6 @@ class RegisterController extends Controller
 
     public function register(RegisterRequest $request)
     {
-        Log::debug('RegisterController.login');
-
         $user = User::create([
             'name' => $request['name'],
             'email' => $request['email'],
@@ -76,7 +74,6 @@ class RegisterController extends Controller
 
         Auth::login($user);
 
-        Log::debug('return前');
         return response()->json(Auth::user());
 
         return $request->wantsJson()
@@ -102,7 +99,6 @@ class RegisterController extends Controller
     // ★ メソッド追加
     protected function registered(Request $request, $user)
     {
-        Log::debug('registered');
         return $user;
     }
 }

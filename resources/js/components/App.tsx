@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-d
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import Top from "../pages/Top";
+import Products from "../pages/Products/App";
 import Sample from "../pages/Sample";
 import Auth from "./Auth";
 import Guest from "./Guest";
@@ -22,6 +23,7 @@ const App = () => {
             <Router>
                 <Switch>
                     <Route exact path="/" component={Top} />
+                    <Route exact path="/products" component={Products} />
                     <Guest>
                         <Route exact path="/Login" component={Login} />
                         <Route exact path="/Register" component={Register} />

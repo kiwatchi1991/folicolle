@@ -29,3 +29,7 @@ Route::get('/auth', 'AuthController@authConfirm')->name('auth');
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
 });
+
+Route::prefix('products')->name('products.')->group(function () {
+    Route::get('/', 'ProductController@index')->name('index');
+});

@@ -5,6 +5,7 @@ import Layout from "../components/Layout/Layout";
 import AppContext from "../contexts/AppContexts";
 import { LOGOUT, AUTHCHECK } from "../actions";
 
+import { Link } from "react-router-dom";
 const styles = require("./Top.modules.scss");
 
 type defaultPropsType = any;
@@ -48,6 +49,9 @@ const Top = (props: defaultPropsType) => {
             <button onClick={logout} className={styles.btn} type="button">
                 ログアウト
             </button>
+            <div>
+                <Link to={{ pathname: "/products" }}>Product一覧</Link>
+            </div>
         </Layout>
     ) : null;
 };
