@@ -24,6 +24,7 @@ const Login = (props: defaultPropsType) => {
     console.log("ログイン画面読み込み時のstate", state);
 
     const [localState, setState] = useState(props);
+    console.log("ログイン画面読み込み時のlocalState", localState);
 
     const login = () => {
         axios.get("/sanctum/csrf-cookie").then(() => {

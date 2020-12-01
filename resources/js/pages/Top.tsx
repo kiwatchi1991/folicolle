@@ -1,11 +1,11 @@
 import React, { useContext, useEffect } from "react";
 import axios from "axios";
 
+import { Link } from "react-router-dom";
 import Layout from "../components/Layout/Layout";
 import AppContext from "../contexts/AppContexts";
 import { LOGOUT, AUTHCHECK } from "../actions";
 
-import { Link } from "react-router-dom";
 const styles = require("./Top.modules.scss");
 
 type defaultPropsType = any;

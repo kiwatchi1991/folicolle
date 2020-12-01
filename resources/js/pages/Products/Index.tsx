@@ -7,27 +7,46 @@ type defaultPropsType = {
 };
 
 const Index = (props: defaultPropsType) => {
+    const [localState, setState] = useState(props);
+
     const getProductsData = () => {
-        axios.get("/api/products/").then((res: any) => {
-            setState(res);
-            console.log(localState);
-        });
+        axios
+            .get("/api/products/")
+            .then((res: any) => {
+                console.log(localState);
+                console.log(res.data);
+                // setState(res.data);
+                setState({
+                    ...localState,
+                    data: res.data,
+                });
+            })
+            .then((res) => {
+                console.log("axios後のlocalState", localState.data);
+            });
     };
     useEffect(() => {
         getProductsData();
     }, []);
-    const [localState, setState] = useState(props);
 
     return (
         <Layout>
             <div>あああ</div>
-            {/* <div>{localState}</div> */}
+            {localState.data &&
+                localState.data.map((item: any) => {
+                    return (
+                        <div key={item.id}>
+                            {item.id}
+                            {item.title}
+                        </div>
+                    );
+                })}
         </Layout>
     );
 };
 
 Index.defaultProps = {
-    data: [],
+    data: null,
 };
 
 export default Index;

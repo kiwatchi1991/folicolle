@@ -7,6 +7,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -46,4 +48,14 @@ class User extends Authenticatable
 
     protected $table = 'users';
     protected $dates = ['deleted_at'];
+
+    /**
+     * ユーザーに紐づくプロダクト情報
+     *
+     * @return object
+     */
+    public function products(): Hasmany
+    {
+        return $this->hasmany('App\Product');
+    }
 }
