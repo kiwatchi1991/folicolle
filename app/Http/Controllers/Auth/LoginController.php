@@ -49,10 +49,7 @@ class LoginController extends Controller
 
     public function login(LoginRequest $request)
     {
-        Log::debug('LoginController.login');
-
         $credentials = $request->all();
-        // Log::debug($credentials);
         if (Auth::attempt($credentials)) {
             return response()->json(Auth::user());
         }

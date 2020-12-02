@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import axios from "axios";
 
+import { Link } from "react-router-dom";
 import Layout from "../components/Layout/Layout";
 import AppContext from "../contexts/AppContexts";
 import { LOGOUT, AUTHCHECK } from "../actions";
@@ -48,6 +49,9 @@ const Top = (props: defaultPropsType) => {
             <button onClick={logout} className={styles.btn} type="button">
                 ログアウト
             </button>
+            <div>
+                <Link to={{ pathname: "/products" }}>Product一覧</Link>
+            </div>
         </Layout>
     ) : null;
 };

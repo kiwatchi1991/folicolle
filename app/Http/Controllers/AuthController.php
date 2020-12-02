@@ -10,13 +10,9 @@ class AuthController extends Controller
 {
     public function authConfirm()
     {
-        Log::debug('authConfirm');
         if (Auth::check()) {
-            Log::debug('ログインしている');
-            Log::debug(Auth::user());
             $response = Auth::user();
         } else {
-            Log::debug('null');
             $response = null;
         }
         return response()->json(['user' => $response]);
