@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-const styles = require("./Header.modules.scss");
+
+const styles = require("./index.modules.scss");
 
 const Header = () => {
     return (
@@ -10,10 +11,14 @@ const Header = () => {
             </div>
             <ul className={styles.ul}>
                 <li className={styles.list}>
-                    <Link to={{ pathname: "Login" }}>Login</Link>
+                    <Link className={styles.link} to={{ pathname: "Login" }}>
+                        ログイン
+                    </Link>
                 </li>
                 <li className={styles.list}>
-                    <Link to={{ pathname: "Register" }}>Register</Link>
+                    <Link className={`${styles.link} ${styles.register}`} to={{ pathname: "Register" }}>
+                        新規登録
+                    </Link>
                 </li>
             </ul>
         </div>

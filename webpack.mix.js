@@ -1,5 +1,6 @@
 const mix = require("laravel-mix");
 require("laravel-mix-react-css-modules");
+require('laravel-mix-stylelint');
 
 mix.webpackConfig({
     module: {
@@ -35,6 +36,7 @@ mix.webpackConfig({
 
 mix.ts("resources/js/app.tsx", "public/js")
     .sass("resources/sass/app.scss", "public/css")
+    .stylelint({ files: ['**/*.scss'] })
     .reactCSSModules("[name]___[hash:base64]")
     .sourceMaps()
     .browserSync({
