@@ -36,8 +36,17 @@ const Index = (props: defaultPropsType) => {
                 localState.data.map((item: any) => {
                     return (
                         <div key={item.id}>
-                            {item.id}
-                            {item.title}
+                            <div>画像パス：{item.img}</div>
+                            <div>
+                                {item.categories.map((category: any) => {
+                                    return <div key={category.id}>{category.name}</div>
+                                })}
+                            </div>
+                            <div>{item.title}</div>
+                            <div>{item.description}</div>
+                            <div>ユーザーimg{item.user.img}</div>
+                            <div>ユーザーname{item.user.name}</div>
+                            <div>ユーザーコメント{item.user.comment}</div>
                         </div>
                     );
                 })}
