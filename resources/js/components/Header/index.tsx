@@ -6,21 +6,25 @@ const styles = require("./index.modules.scss");
 const Header = () => {
     return (
         <div className={styles.header}>
-            <div>
-                <Link to={{ pathname: "/" }}>Folicolle</Link>
+            <div className={styles.header_inner}>
+                <div className={styles.logo}>
+                    <Link to={{ pathname: "/" }}>
+                        <img className={styles.logo_img} src="/images/folicolle.svg" alt="" />
+                    </Link>
+                </div>
+                <ul className={styles.ul}>
+                    <li className={styles.list}>
+                        <Link className={`${styles.link} ${styles.login}`} to={{ pathname: "Login" }}>
+                            ログイン
+                        </Link>
+                    </li>
+                    <li className={styles.list}>
+                        <Link className={`${styles.link} ${styles.register}`} to={{ pathname: "Register" }}>
+                            新規登録
+                        </Link>
+                    </li>
+                </ul>
             </div>
-            <ul className={styles.ul}>
-                <li className={styles.list}>
-                    <Link className={styles.link} to={{ pathname: "Login" }}>
-                        ログイン
-                    </Link>
-                </li>
-                <li className={styles.list}>
-                    <Link className={`${styles.link} ${styles.register}`} to={{ pathname: "Register" }}>
-                        新規登録
-                    </Link>
-                </li>
-            </ul>
         </div>
     );
 };

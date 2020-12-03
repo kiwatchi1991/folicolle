@@ -1,21 +1,28 @@
-// Body
-$body-bg: #f8fafc;
-
-// Typography
-$font-family-sans-serif: "Nunito", sans-serif;
-$font-size-base: 0.9rem;
-$line-height-base: 1.6;
-
-// Colors
-$blue: #3490dc;
-$indigo: #6574cd;
-$purple: #9561e2;
-$pink: #f66d9b;
-$red: #e3342f;
-$orange: #f6993f;
-$yellow: #ffed4a;
-$green: #38c172;
-$teal: #4dc0b5;
-$cyan: #6cb2eb;
+//カラー
+$main_cl: #8cd790;
+$accent_cl: #77af9c;
+$bg_cl: #d9edc1;
+$light_bg_cl: #c5e99b;
+$yellow: #fff45c;
 
 $main-text: #404040;
+
+//サイズ
+$header_height_sp: 60px;
+
+// メディアクエリ
+// Breakpoint ブレイクポイント
+$breakpoints: (
+    "xs": "screen and (max-width: 375px)",
+    "sm": "screen and (max-width: 480px)",
+    "md": "screen and (max-width: 768px)",
+    "lg": "screen and (max-width: 1028px)",
+    "xl": "screen and (max-width: 1230px)",
+) !default;
+
+// @mixinでメディアクエリを呼び出す
+@mixin mq($breakpoint) {
+    @media #{map-get($breakpoints, $breakpoint)} {
+        @content;
+    }
+}

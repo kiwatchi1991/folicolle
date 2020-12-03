@@ -1,8 +1,33 @@
+@import "../../../sass/variables";
+
 .header {
     font-size: 20px;
-    padding: 15px;
+    padding: 18px 16px;
+    box-shadow: 0 -10px 15px 0 rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    background: hsla(0, 0%, 100%, 0.9);
+    height: $header_height_sp;
+    display: flex;
+    justify-content: center;
+}
+.header_inner {
     display: flex;
     justify-content: space-between;
+    max-width: 1000px;
+    width: 100%;
+}
+.logo {
+    display: flex;
+    align-items: center;
+    a {
+        display: inline-block;
+    }
+}
+.logo_img {
+    width: 150px;
 }
 .ul {
     display: flex;
@@ -11,15 +36,22 @@
 .list {
     list-style: none;
     font-size: 14px;
-    margin-left: 20px;
+    margin-left: 16px;
 }
 
 .link {
-    padding: 8px 16px;
     border-radius: 22px;
     color: #404040;
+    @include mq(sm) {
+        font-size: 12px;
+    }
+}
+
+.login {
+    padding: 2px 4px;
 }
 
 .register {
+    padding: 8px 16px;
     background: #fff45c;
 }
