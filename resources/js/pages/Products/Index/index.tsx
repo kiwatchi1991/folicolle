@@ -15,7 +15,6 @@ const Index = (props: defaultPropsType) => {
             .then((res: any) => {
                 console.log(localState);
                 console.log(res.data);
-                // setState(res.data);
                 setState({
                     ...localState,
                     data: res.data,
@@ -39,7 +38,7 @@ const Index = (props: defaultPropsType) => {
                             <div>画像パス：{item.img}</div>
                             <div>
                                 {item.categories.map((category: any) => {
-                                    return <div key={category.id}>{category.name}</div>
+                                    return <div key={category.id}>{category.name}</div>;
                                 })}
                             </div>
                             <div>{item.title}</div>
