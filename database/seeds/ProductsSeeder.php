@@ -15,23 +15,21 @@ class ProductsSeeder extends Seeder
     {
         $products = factory(Product::class, 10)->create([
             'title' => "タイトル",
-            'description' => '説明説明説明説明説明説明説明説明説明',
+            'description' => 'これは説明です。これは説明です。これは説明です。これは説明です。これは説明です。これは説明です。これは説明です。これは説明です。これは説明です。',
             'body' => "これは記事本文ですこれは記事本文ですこれは記事本文ですこれは記事本文ですこれは記事本文ですこれは記事本文ですこれは記事本文ですこれは記事本文ですこれは記事本文です"
         ]);
 
         //各プロダクトに、ランダムで３つカテゴリーを紐づける
         $categories = Category::all();
 
+        $count = 7;
+        $arr = [];
         foreach ($products as $product) {
-            $r = mt_rand(0, count($categories) - 1);
-            $r1 = mt_rand(0, count($categories) - 1);
-            $r2 = mt_rand(0, count($categories) - 1);
-
-            $product->categories()->sync([
-                $categories[$r]->id,
-                $categories[$r1]->id,
-                $categories[$r2]->id
-            ]);
+            for ($i = 0; $i < $count; $i++) {
+                $r = mt_rand(0, count($categories) - 1);
+                $arr[$i] = $categories[$r]->id;
+            }
+            $product->categories()->sync($arr);
         }
     }
 }

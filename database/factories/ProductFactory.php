@@ -20,7 +20,7 @@ use Faker\Generator as Faker;
 $factory->define(Product::class, function (Faker $faker) {
     return [
         'title' => $faker->text(10),
-        'description' => $faker->text(255),
+        'description' => $faker->text(100),
         'body' => $faker->text(255),
         'user_id' => factory(User::class)->create()->id,
         'img' => $faker->text(40),
