@@ -160,12 +160,13 @@ input[type=submit] {
 }
 
 html {
-  font-size: 10px;
+  font-size: 16px;
 }
 
 body {
   height: 100vh;
   color: #404040;
+  box-sizing: border-box;
 }
 
 #app {

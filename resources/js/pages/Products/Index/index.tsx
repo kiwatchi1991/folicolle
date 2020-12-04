@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Layout from "../../../components/Layout";
 
+const styles = require("./index.modules.scss");
+
 type defaultPropsType = {
     data: any;
 };
@@ -28,27 +30,50 @@ const Index = (props: defaultPropsType) => {
         getProductsData();
     }, []);
 
+    const productImg = {
+        backgroundImage: "url(/images/noimage.png)",
+    };
+    const userImg = {
+        backgroundImage: "url(/images/noavatar.png)",
+    };
+
     return (
         <Layout>
-            <div>あああ</div>
-            {localState.data &&
-                localState.data.map((item: any) => {
-                    return (
-                        <div key={item.id}>
-                            <div>画像パス：{item.img}</div>
-                            <div>
-                                {item.categories.map((category: any) => {
-                                    return <div key={category.id}>{category.name}</div>;
-                                })}
-                            </div>
-                            <div>{item.title}</div>
-                            <div>{item.description}</div>
-                            <div>ユーザーimg{item.user.img}</div>
-                            <div>ユーザーname{item.user.name}</div>
-                            <div>ユーザーコメント{item.user.comment}</div>
-                        </div>
-                    );
-                })}
+            <div className={styles.inner}>
+                <div className={styles.header}>ポートフォリオ一覧</div>
+                <div className={styles.cards}>
+                    {localState.data &&
+                        localState.data.map((item: any) => {
+                            return (
+                                <div key={item.id} className={styles.card}>
+                                    <div className={styles.img} style={productImg} />
+                                    <div className={styles.bottom_half}>
+                                        <div className={styles.tags}>
+                                            {item.categories.map((category: any) => {
+                                                return (
+                                                    <div key={category.id} className={styles.tag}>
+                                                        {category.name}
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                        <div className={styles.product_info}>
+                                            <div className={styles.title}>{item.title}</div>
+                                            <div className={styles.description}>{item.description}</div>
+                                        </div>
+                                        <div className={styles.user}>
+                                            <div className={styles.user_img} style={userImg} />
+                                            <div className={styles.user_info}>
+                                                <div className={styles.user_name}>{item.user.name}</div>
+                                                <div className={styles.user_comment}>{item.user.comment}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                </div>
+            </div>
         </Layout>
     );
 };
