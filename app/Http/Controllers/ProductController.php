@@ -16,4 +16,9 @@ class ProductController extends Controller
         $products = Product::with(["user", "categories"])->get();
         return response()->json($products);
     }
+    public function show($id)
+    {
+        $products = Product::with(["user", "categories"])->get();
+        return response()->json($products);
+    }
 }
