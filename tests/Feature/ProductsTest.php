@@ -16,7 +16,7 @@ class ProductsTest extends TestCase
         parent::setUp();
 
         // テストプロダクト作成
-        $products = factory(Product::class)->create([
+        $this->products = factory(Product::class)->create([
             "title" => 'タイトル１'
         ]);
     }
@@ -34,6 +34,19 @@ class ProductsTest extends TestCase
     public function GETリクエストで一覧データが返ってくる()
     {
         $response = $this->get('api/products/');
+
+        $response->assertJsonCount(1)
+            ->assertJsonFragment([
+                "title" => 'タイトル１'
+            ]);
+    }
+
+    /**
+     * @test
+     */
+    public function GETリクエストで詳細データが返ってくる()
+    {
+        $response = $this->get("api/products/{$this->products->id}");
 
         $response->assertJsonCount(1)
             ->assertJsonFragment([
