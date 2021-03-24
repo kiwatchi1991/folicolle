@@ -14,12 +14,12 @@ const Header = () => {
                 </div>
                 <ul className={styles.ul}>
                     <li className={styles.list}>
-                        <Link className={`${styles.link} ${styles.login}`} to={{ pathname: "Login" }}>
+                        <Link className={`${styles.link} ${styles.login}`} to={{ pathname: "login" }}>
                             ログイン
                         </Link>
                     </li>
                     <li className={styles.list}>
-                        <Link className={`${styles.link} ${styles.register}`} to={{ pathname: "Register" }}>
+                        <Link className={`${styles.link} ${styles.register}`} to={{ pathname: "register" }}>
                             新規登録
                         </Link>
                     </li>

@@ -200,7 +200,7 @@ const Login = (props: defaultPropsType) => {
                                 </li>
                                 <li className={styles.toRegister}>
                                     アカウントをお持ちでないですか？
-                                    <Link to={{ pathname: "Register" }} className={styles.toRegisterLink}>
+                                    <Link to={{ pathname: "register" }} className={styles.toRegisterLink}>
                                         新規登録
                                     </Link>
                                 </li>
