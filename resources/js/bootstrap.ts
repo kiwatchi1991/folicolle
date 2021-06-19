@@ -1,11 +1,12 @@
 interface Window {
-    _: any,
-    Popper: any,
-    $: any,
-    jQuery: any,
-    axios: any
+    _: any;
+    Popper: any;
+    $: any;
+    jQuery: any;
+    axios: any;
 }
-declare var window: Window & typeof globalThis
+// declare let window: Window & typeof globalThis;
+// let window: Window & typeof globalThis;
 
 window._ = require("lodash");
 
@@ -35,7 +36,7 @@ window.axios = require("axios");
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 window.axios.defaults.withCredentials = true;
 
-window.axios.interceptors.request.use((config:any) => {
+window.axios.interceptors.request.use((config: any) => {
     return config;
 });
 /**

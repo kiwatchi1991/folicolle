@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -16,8 +17,14 @@ class ProductsTest extends TestCase
         parent::setUp();
 
         // テストプロダクト作成
-        $this->products = factory(Product::class)->create([
+        $categories = factory(Category::class, 3)->create();
+        $this->product = factory(Product::class)->create([
             "title" => 'タイトル１'
+        ]);
+        $this->product->categories()->sync([
+            $categories[0]->id,
+            $categories[1]->id,
+            $categories[2]->id,
         ]);
     }
     /**
@@ -46,8 +53,9 @@ class ProductsTest extends TestCase
      */
     public function GETリクエストで詳細データが返ってくる()
     {
-        $response = $this->get("api/products/{$this->products->id}");
+        $response = $this->get("api/products/{$this->product->id}");
 
+        dump($response["data"]);
         $response->assertJsonCount(1)
             ->assertJsonFragment([
                 "title" => 'タイトル１'

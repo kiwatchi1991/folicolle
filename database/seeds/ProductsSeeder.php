@@ -29,6 +29,7 @@ class ProductsSeeder extends Seeder
                 $r = mt_rand(0, count($categories) - 1);
                 $arr[$i] = $categories[$r]->id;
             }
+            // dump($arr);
             $product->categories()->sync($arr);
         }
     }
